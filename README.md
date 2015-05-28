@@ -9,6 +9,8 @@ ________________________________________________________________________________
 
 Recent updates: 
 
+	5-28-15: Started save file for google - didn't finish, didn't test
+	5-27-15: Google Drive Login set up, tested in Sandbox
 	5-26-15: README created
 
 Past updates: 
