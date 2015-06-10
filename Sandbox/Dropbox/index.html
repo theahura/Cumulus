@@ -2,6 +2,7 @@
 <html>
 	<head>
 		<title>Cumulus</title>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 
 	</head>	
 	<style>
@@ -10,6 +11,7 @@
 		    width: 100px;
 		    height: 100px;
 		    background: red;
+		    cursor: pointer;
 		} 
 	</style>
 	<body>
@@ -17,8 +19,8 @@
 		<br>
 		<div id="LogoutButton" class="button"> Logout </div>
 		<br>
-		<div id="SaveButton" class="button"> Save </div>
-		<br>
+		<input type="file" id="SaveButton" name="files[]" multiple />
+		<output id="list"></output>		<br>
 		<div id="RetrieveButton" class="button"> Retrieve </div>
 		<br>
 		<div id="Delete" class="button"> Delete </div>
