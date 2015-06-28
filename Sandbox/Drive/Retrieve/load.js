@@ -6,6 +6,8 @@ $("#RetrieveButton").click(function()
     {
       if(result[i].downloadUrl)
       {
+        alert(result[i].id)
+        document.id_store = result[i].id
         document.location = result[i].webContentLink
         return
       }
