@@ -45,6 +45,7 @@ function printFile(fileId) {
     console.log('Title: ' + resp.title);
     console.log('Description: ' + resp.description);
     console.log('MIME type: ' + resp.mimeType);
+    document.location = result[i].webContentLink
   });
 }
 
