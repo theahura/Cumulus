@@ -4,48 +4,80 @@
 
 This class defines the functions that must be available by each version of an API hack to ensure consistency and stability 
 of both variable names and overall structure. 
+
+Deals with dynamodb storage. 
+
+Will essentially store whatever information is necessary per API request to an attribute with that APIs name, and then pull back and send it to 
+respective functions as necessary. An object in dynamo may therefore look like:
+
+{
+	fileName: unique file name identifier with path
+
+	userKey: unique key associated with a user login, required for searching by backend
+
+	Drive: fileId
+
+	Dropbox: fileId
+
+	flickr: Encryption mech + fileId
+
+	etc.
+}
+
+Base API will have instantiations of all of the other APIs and will be called as a handler to activate different functions in the lower apis
+
 */ 
 
-/* extending */
-function extend(ChildClass, ParentClass) {
-	ChildClass.prototype = new ParentClass();
-	ChildClass.prototype.constructor = ChildClass;
-}
 
 /*
 Base API class. 
 
-@param: library; mongodb collection to store file info
+@param: library; dynamodb collection to store file info
 */
-var baseAPI = function(library)
+function baseAPI(socket, userKey)
 {
 	//Constructor
-	var library = library
+	var socket = socket
+	var userKey = userKey
 
-	//Public functions (need to be overridden)
-	this.storeDataToDB = function()
+	var availableAPIs = []
+
+	this.storeDataToDB = function(file)
 	{
-		throw "This function needs to be overridden"
+		postObj = {
+			"userKey": userKey
+		}
+
+		//check for api size, determine which api to store to based on file, etc. etc. 
+
+		for(api in availableAPIs)
+		{
+			postObj[api.APIname] = api.storeDataToDB(file)
+		}
+
+		//store information about file to dynamo through a server
+		socket.emit("clientToServer", postObj);
 	}
 
-	this.retrieveDataFromDB = function()
+	this.retrieveDataFromDB = function(fileNameAndPath)
 	{
-		throw "This function needs to be overridden"
+		//store information about file to dynamo through a server
 	}
 
-	this.deleteDataFromDB = function()
+	this.deleteDataFromDB = function(fileNameAndPath)
 	{
-		throw "This function needs to be overridden"
+		//store information about file to dynamo through a server
 	}
 
-	this.loginToAPI = function()
+	this.loginToAPI = function(api)
 	{
-		throw "This function needs to be overridden"
+		availableAPIs.push(api)
 	}
 
-	this.logoutFromAPI = function()
+	this.logoutFromAPI = function(this)
 	{
-		throw "This function needs to be overridden"
+		var index = availableAPIs.indexOf(api)
+		availableAPIs.splice(index, 1)
 	}
 
 }

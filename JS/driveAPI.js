@@ -9,11 +9,12 @@ This class defines the functions for Google Drive API
 Google Drive API class
 @param: library; mongodb collection to store file info
 */
-function GoogleAPI(library, apiName)
+function GoogleAPI(parent)
 {
     //Constructor
-    this.apiName = apiName
-    var parent = new baseApiClass(library)
+    this.APIname = "gDrive"
+
+    var parent = parent
 
     var CLIENT_ID = '871670712835-a5a2j5uaein2copvj19vqia8girjk8jl.apps.googleusercontent.com';
     var SCOPES = 'https://www.googleapis.com/auth/drive';
@@ -56,9 +57,9 @@ function GoogleAPI(library, apiName)
                 'body': multipartRequestBody});
 
             //GET THE FILE ID AND STORE TO DYNAMO THROUGH THE PARENT
-            request.execute(function()
+            request.execute(function (file) 
             {
-                console.log("finished")
+                return file.id;
             });
         }
     }
@@ -89,6 +90,9 @@ function GoogleAPI(library, apiName)
 
     this.loginToAPI = function()
     {
+        //  document.getElementById("LoadingColor").style.display = "block";
+        gapi.client.load('drive', 'v2', checkAuth);
+
         function checkAuth() 
         {
             gapi.auth.authorize(
@@ -102,16 +106,8 @@ function GoogleAPI(library, apiName)
                var request = gapi.client.drive.about.get(); //gets username
                request.execute(function(resp) 
                {
-                    User = resp.name;
-
                     alert("Logged in to Google Drive as: " + User);
-                                      
-                    Auth = true;   
-                    OauthToken = authResult.access_token;
-
-                    //store api method to parent
-                    parent.loginToAPI(this)
-                      
+                                                            
                     return true;
                });
            }
@@ -133,9 +129,6 @@ function GoogleAPI(library, apiName)
                return false;
            }
         }
-
-        //  document.getElementById("LoadingColor").style.display = "block";
-        gapi.client.load('drive', 'v2', checkAuth);
     }
 
     this.logoutFromAPI = function()
@@ -152,15 +145,7 @@ function GoogleAPI(library, apiName)
             dataType: 'jsonp',
             success: function(nullResponse) 
             {
-                //clears user tracker and modified UI accordingly 
-                User = null;
-                OauthToken = null;
-                //sets login tracker to logout
-                Auth = false;
-              
                 alert("Logged Out of Google Drive");
-
-                parent.logoutFromAPI(this)
             },
             
             error: function(e) 

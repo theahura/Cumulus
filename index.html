@@ -1,11 +1,37 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<link rel="stylesheet" href="css/mainUI.css" />
 		<title>Cumulus</title>
-	</head>	
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+		<script type="text/javascript" src="https://apis.google.com/js/client.js"></script> 
 
+	</head>	
+	<style>
+		.button
+		{
+		    width: 100px;
+		    height: 100px;
+		    background: red;
+		    cursor: pointer;
+		} 
+	</style>
 	<body>
-		Coming Soon
+		<div id="LoginButton" class="button"> Login </div>
+		<br>
+		<div id="LogoutButton" class="button"> Login </div>
+		<br>
+		<div id="DriveLoginButton" class="button"> Login </div>
+		<br>
+		<div id="DriveLogoutButton" class="button"> Logout </div>
+		<br>
+		<input type="file" id="SaveButton" name="files[]" multiple />
+		<output id="list"></output>		<br>
+		<div id="RetrieveButton" class="button"> Retrieve </div>
+		<br>
+		<div id="DeleteButton" class="button"> Delete </div>
 	</body>
+
+	<script src="JS/driveAPI.js"></script>
+	<script src="JS/baseAPIclass.js"></script>
+	<script src="JS/main.js"></script>
 </html>
