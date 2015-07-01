@@ -45,7 +45,9 @@ function baseAPI(socket, userKey)
 	this.storeDataToDB = function(file)
 	{
 		postObj = {
-			"userKey": userKey
+			"name": 'store',
+			"userKey": userKey,
+
 		}
 
 		//check for api size, determine which api to store to based on file, etc. etc. 
@@ -74,7 +76,7 @@ function baseAPI(socket, userKey)
 		availableAPIs.push(api)
 	}
 
-	this.logoutFromAPI = function(this)
+	this.logoutFromAPI = function(api)
 	{
 		var index = availableAPIs.indexOf(api)
 		availableAPIs.splice(index, 1)

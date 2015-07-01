@@ -19,9 +19,11 @@ $("#DeleteButton").click(function()
 
 $("#LoginButton").click(function()
 {   
+    //Need to build login function
     //APIS
-    baseAPI = new baseAPI(socket)
-    googleDrive = new GoogleAPI(baseAPI)
+    userKey = "amol123"
+    baseAPI = new baseAPI(socket, userKey);
+    googleDrive = new GoogleAPI(baseAPI);
     alert("Already logged in as " + User); 
 });
 
