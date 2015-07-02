@@ -7,66 +7,28 @@ Runner file. Executes program, initializes available libraries, etc.
 */
 
 //Connection to Backend
-socket = io('http://54.86.173.127:3004');
+socket = io('http://54.86.173.127:3009');
 
 
 //Event triggers
-$("#DeleteButton").click(function()
-{
-
-});
-
-
 $("#LoginButton").click(function()
 {   
-    //Need to build login function
-    //APIS
-    userKey = "amol123"
-    baseAPI = new baseAPI(socket, userKey);
-    googleDrive = new GoogleAPI(baseAPI);
-    alert("Already logged in as " + User); 
+	alert("Already logged in"); 
 });
 
 $("#LogoutButton").click(function()
 {   
-    alert("Not logged in");
+	alert("Not logged in");
 });
 
-$("#DriveLoginButton").click(function()
-{   
-
-    alert("Already logged in as " + User); 
-});
-
-$("#DriveLogoutButton").click(function()
-{   
-    alert("Not logged in");
-});
-
-$("#RetrieveButton").click(function()
+$("#NewUserButton").click(function()
 {
+	userName = prompt("User Name?");
+	password = prompt("Password?");
 
+	socket.emit("clientToServer", {
+		name: "newUser",
+		userName: userName,
+		password: password
+	});
 });
-
-
-//Copy pasted from interwobs. Could probably be better.
-function handleFileSelect(evt)
-{
-    var files = evt.target.files; // FileList object
-
-    // files is a FileList of File objects. List some properties.
-    var output = [];
-    for (var i = 0, f; f = files[i]; i++) 
-    {
-      output.push('<li><strong>', escape(f.name), '</strong> (', f.type || 'n/a', ') - ',
-                  f.size, ' bytes, last modified: ',
-                  f.lastModifiedDate ? f.lastModifiedDate.toLocaleDateString() : 'n/a',
-                  '</li>');
-
-      //Calls the save function for gdrive
-      insertFile(f)
-    }
-    document.getElementById('list').innerHTML = '<ul>' + output.join('') + '</ul>';
-}
-
-document.getElementById('SaveButton').addEventListener('change', handleFileSelect, false);

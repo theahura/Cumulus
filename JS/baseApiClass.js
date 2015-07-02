@@ -47,7 +47,6 @@ function baseAPI(socket, userKey)
 		postObj = {
 			"name": 'store',
 			"userKey": userKey,
-
 		}
 
 		//check for api size, determine which api to store to based on file, etc. etc. 
