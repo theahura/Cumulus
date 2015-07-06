@@ -9,7 +9,6 @@ Runner file. Executes program, initializes available libraries, etc.
 //Connection to Backend
 socket = io('http://54.86.173.127:3009');
 
-
 //Event triggers
 $("#LoginButton").click(function()
 {   

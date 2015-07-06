@@ -9,32 +9,43 @@ var db = new AWS.DynamoDB();
 var userTable = new AWS.DynamoDB({params: {TableName: 'Users'}});
 var fileTable = new AWS.DynamoDB({params: {TableName: 'Files'}});
 
+//Sockets
+var io = require('socket.io').listen(3009);
 
-db.listTables(function(err, data) 
+function checkOldUser(socket, incomingObj)
 {
-	if(err)
-		console.log(err, err.stack);
-	else
-  		console.log(data);
-});
-
-var itemParams = {Item: {'userName': {'S':'theahura'}, 'passWord': {'S':'abcd'}, 'userKey': {'S':'somehash'}}};
-userTable.putItem(itemParams, function() {
-  // Read the item from the table
+	// Read the item from the table
   userTable.getItem({Key: {'userName':{'S':'theahura'}, 'passWord':{'S':'abcd'}}}, function(err, data) {
   	if(err)
   		console.log(err, err.stack)
   	else
     	console.log(data); // print the item data
   });
-});
+}
 
-//Sockets
-var io = require('socket.io').listen(3005);
+function generateUserKey(username, password)
+{
+	return username+password;
+}
+
+function regNewUser(socket, incomingObj)
+{
+	userKey = generateUserKey(incomingObj.username, incomingObj.password);
+	var itemParams = {Item: {'userName': {'S': incomingObj.username}, 'passWord': {'S':incomingObj.password}, 'userKey': {'S': userKey}}};
+	userTable.putItem(itemParams);
+}
+
+function storeDataToDb(socket, data)
+{
+	console.log(data);
+	//dynamo stuff
+	return true;
+}
 
 //On an io socket connection...
 io.sockets.on('connection', function(socket) 
 {
+	console.log("CONNECTED")
 	socket.on('clientToServer', function(data)
 	{
 		if(!(data && data.name))
@@ -61,11 +72,21 @@ function serverHandler(socket, incomingObj)
 	}
 	else if(incomingObj.name === 'login')
 	{
-
+		checkOldUser(socket, incomingObj);
 	}
 	else if(incomingObj.name === 'newUser')
 	{
+		if(!incomingObj.username || typeof incomingObj.username !== 'string' || incomingObj.username.length === 0)
+		{
+			serverError(socket, "No or invalid username")
+		}
 
+		if(!incomingObj.password || typeof incomingObj.password !== 'string' || incomingObj.password.length === 0)
+		{
+			serverError(socket, "No or invalid password")
+		}
+
+		regNewUser(socket, incomingObj);
 	}
 	else
 	{
@@ -73,9 +94,3 @@ function serverHandler(socket, incomingObj)
 	}
 }
 
-function storeDataToDb(socket, data)
-{
-	console.log(data);
-	//dynamo stuff
-	return true;
-}
