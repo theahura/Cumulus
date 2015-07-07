@@ -7,79 +7,14 @@ body {
     background-color: #F4F4F4;
     width: 100%;
 }
-.header {
-    background-color: #4791FF;
-    -webkit-box-shadow: 0px 3px 9px -2px rgba(0, 0, 0, 0.61);
-    -moz-box-shadow: 0px 3px 9px -2px rgba(0, 0, 0, 0.61);
-    box-shadow: 0px 3px 9px -2px rgba(0, 0, 0, 0.61);
-    width: 100%;
-    position: fixed;
-    left:0;
-    right: 0;
-    top: 0;
-}
+
 h1 {
     color: white;
     font-size: 22pt;
     float: left;
     margin: 10px;
 }
-#logo {
-    display: inline-block;
-    cursor: default;
-}
-.button {
-    padding: 5px;
-    margin: 10px;
-    float: right;
-    border-style: solid;
-    border-color: white;
-    border-radius: 3px;
-    color: white;
-    border-width: 1px;
-    cursor: pointer;
-}
-.button:hover {
-    background-color: white;
-    color: #4791FF;
-}
-.content {
-    padding-top: 75px;
-    width: 50%;
-    min-width: 500px;
-    margin-left: auto;
-    margin-right: auto;
-}
-.about {
-    background-color: white;
-    text-align: center;
-    color: #333333;
-    padding: 25px;
-    border-radius: 3px;
-}
-#usernamefield {
-    display: none;
-    height: 12pt;
-    width: 100px;
-}
-#passwordfield {
-    height: 12pt;
-    width: 100px;
-    display: none;
-}
-.inputfield {
-    padding: 5px;
-    margin: 10px;
-    float: right;
-    border-radius: 3px;
-    background-color: white;
-    color: #B2B2B2;
-}
-#button-table {
-    background-color: #4791FF;
-    color: white;
-    width: 100%;
-}
+
 table {
     width: 100%;
 }
@@ -97,17 +32,7 @@ td {
     font-size: 15pt;
     border-radius: 3px;
 }
-#delete {
-    width: 34%;
-}
-.largebutton {
-    cursor: pointer;
-}
-.largebutton:active {
-    -webkit-box-shadow: inset 0px 3px 14px -3px rgba(0, 0, 0, 0.75);
-    -moz-box-shadow: inset 0px 3px 14px -3px rgba(0, 0, 0, 0.75);
-    box-shadow: inset 0px 3px 14px -3px rgba(0, 0, 0, 0.75);
-}
+
 input[type="file"] {
     margin-top: 50px;
     width: 100%;
@@ -117,4 +42,110 @@ p {
     font-size: 10pt;
     color: #666666;
     line-height: 150%
+}
+
+.button {
+    padding: 5px;
+    margin: 10px;
+    float: right;
+    border-style: solid;
+    border-color: white;
+    border-radius: 3px;
+    color: white;
+    border-width: 1px;
+    cursor: pointer;
+
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.button:hover {
+    background-color: white;
+    color: #4791FF;
+}
+
+.header {
+    background-color: #4791FF;
+    -webkit-box-shadow: 0px 3px 9px -2px rgba(0, 0, 0, 0.61);
+    -moz-box-shadow: 0px 3px 9px -2px rgba(0, 0, 0, 0.61);
+    box-shadow: 0px 3px 9px -2px rgba(0, 0, 0, 0.61);
+    width: 100%;
+    position: fixed;
+    left:0;
+    right: 0;
+    top: 0;
+}
+
+    #logo {
+        display: inline-block;
+        cursor: default;
+    }
+
+.content {
+    padding-top: 75px;
+    width: 50%;
+    min-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+    .about {
+        background-color: white;
+        text-align: center;
+        color: #333333;
+        padding: 25px;
+        border-radius: 3px;
+    }
+
+    #UsernameField {
+        display: none;
+        height: 12pt;
+        width: 100px;
+    }
+    #PasswordField {
+        height: 12pt;
+        width: 100px;
+        display: none;
+    }
+
+    #Cancel
+    {
+        display: none;
+    }
+
+    #SubmitLogin
+    {
+        display: none;
+    }
+
+
+    .inputfield {
+        padding: 5px;
+        margin: 10px;
+        float: right;
+        border-radius: 3px;
+        background-color: white;
+        color: #B2B2B2;
+    }
+
+    #button-table {
+        background-color: #4791FF;
+        color: white;
+        width: 100%;
+    }
+
+    #delete {
+        width: 34%;
+    }
+.largebutton {
+    cursor: pointer;
+}
+.largebutton:active {
+    -webkit-box-shadow: inset 0px 3px 14px -3px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: inset 0px 3px 14px -3px rgba(0, 0, 0, 0.75);
+    box-shadow: inset 0px 3px 14px -3px rgba(0, 0, 0, 0.75);
 }
