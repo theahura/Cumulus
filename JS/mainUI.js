@@ -1,4 +1,3 @@
-
 $("#UsernameField, #PasswordField").click(function clearBox(itemID) {
     document.getElementById(itemID).innerHTML = "";
 });
