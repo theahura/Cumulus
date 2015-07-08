@@ -20,3 +20,15 @@ $("#Cancel").click(function hideInputLogin() {
 
     document.getElementById("Cancel").style.display = "none";
 });
+
+/*$('#NewUserButton').click(function showUserCreation() {
+
+});*/
+
+$('#terms').click(function() { alert("We own you")});
+
+$('#privacy').click(function() { alert("We have none, sucker")});
+
+$('#GetStartedButton').click(function() {
+    this.parentNodes.submit();    
+});

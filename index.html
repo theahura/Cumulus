@@ -23,7 +23,7 @@
 		    <div id="UsernameField" class="inputfield" contenteditable="true">Username</div>
 		</div>
 		<div class="content">
-		    <div class="about">
+		    <div class="about" id="flavortext">
 		         <h2>It's a big cloud service.</h2>
 
 		         <h3><em>For you.</em></h3>
@@ -43,6 +43,27 @@
 		        <br>
 		        <p>Cumulus is for those users who need gratuitous amounts of storage.</p>
 		        <p>Combining Google Drive, Dropbox, and maybe some other things, Cumulus offers a secure, unified storage space. Keeping track of your files has probably never been this easy!</p>
+		    </div>
+		    <div class="about" id="usercreator">
+		    	<h2>Creating an account is fast and easy.</h2>
+		    	<br>
+		    	<form method="POST" name="userinfo">
+		    		<input type="text" name="firstname" placeholder="First name">
+		    		<br>
+		    		<input type="text" name="lastname" placeholder="Last name"> 
+		    		<br>
+		    		<input type="email" name="email" placeholder="Email"> 
+		    		<br>
+		    		<input id="passwordinput" type="password" name="password" placeholder="Password">
+		    		<br>
+		    		<br>
+		    		<br>
+		    		<div id="GetStartedButton" class="largebutton">
+		    			Get Started
+		    		</div>
+		    	</form>
+		    	<br>
+		    	<span id="legal">By creating an account, you agree to our <span id="terms" class="small-link">Terms of Use</span> and our <span id="privacy" class="small-link">Privacy Policy</span>.</span>
 		    </div>
 		</div>
 

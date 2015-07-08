@@ -149,3 +149,36 @@ p {
     -moz-box-shadow: inset 0px 3px 14px -3px rgba(0, 0, 0, 0.75);
     box-shadow: inset 0px 3px 14px -3px rgba(0, 0, 0, 0.75);
 }
+
+.small-link {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+#legal {
+    color: #CCCCCC;
+    font-size: 9pt;
+}
+
+input {
+    width: 400px;
+    height: 20px;
+    margin: 10px;
+}
+
+#passwordinput {
+    margin-left: 10px;
+}
+
+#GetStartedButton {
+    width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+    height: 100px;
+    background-color: #4791FF;
+    text-align: center;
+    line-height: 100px;
+    color: white;
+    font-weight: bold;
+    font-size: 15pt;
+}
