@@ -57,12 +57,14 @@ function serverHandler(socket, incomingObj)
 	{
 		if(!incomingObj.username || typeof incomingObj.username !== 'string' || incomingObj.username.length === 0)
 		{
-			serverError(socket, "No or invalid username")
+			serverError(socket, "No or invalid username");
+			return;
 		}
 
 		if(!incomingObj.password || typeof incomingObj.password !== 'string' || incomingObj.password.length === 0)
 		{
-			serverError(socket, "No or invalid password")
+			serverError(socket, "No or invalid password");
+			return;
 		}
 
 		loginTools.checkOldUser(socket, userTable, incomingObj, loginResponse);
@@ -71,12 +73,14 @@ function serverHandler(socket, incomingObj)
 	{
 		if(!incomingObj.username || typeof incomingObj.username !== 'string' || incomingObj.username.length === 0)
 		{
-			serverError(socket, "No or invalid username")
+			serverError(socket, "No or invalid username");
+			return;
 		}
 
 		if(!incomingObj.password || typeof incomingObj.password !== 'string' || incomingObj.password.length === 0)
 		{
-			serverError(socket, "No or invalid password")
+			serverError(socket, "No or invalid password");
+			return;
 		}
 
 		loginTools.regNewUser(socket, userTable, incomingObj, newUserResponse);
