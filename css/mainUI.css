@@ -25,12 +25,11 @@ td {
     background-color: #4791FF;
     color: white;
     height: 75px;
-    ;
     font-weight: bold;
     width: 33%;
     text-align: center;
     font-size: 15pt;
-    border-radius: 3px;
+    border-radius: 1px;
 }
 
 input[type="file"] {
@@ -50,11 +49,14 @@ p {
     float: right;
     border-style: solid;
     border-color: white;
-    border-radius: 3px;
+    border-radius: 2px;
     color: white;
     border-width: 1px;
     cursor: pointer;
-
+    -webkit-transition: color .1s;
+    transition: color .1s;
+    -webkit-transition: background-color .1s;
+    transition: background-color .1s;
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -khtml-user-select: none;
@@ -82,7 +84,7 @@ p {
 
     #logo {
         display: inline-block;
-        cursor: default;
+        cursor: pointer;
     }
 
 .content {
@@ -155,7 +157,7 @@ p {
     cursor: pointer;
 }
 
-#legal {
+.legal {
     color: #CCCCCC;
     font-size: 9pt;
 }
@@ -166,9 +168,7 @@ input {
     margin: 10px;
 }
 
-#passwordinput {
-    margin-left: 10px;
-}
+
 
 #GetStartedButton {
     width: 400px;
@@ -181,4 +181,9 @@ input {
     color: white;
     font-weight: bold;
     font-size: 15pt;
+    border-radius: 2px;
+}
+
+#UserCreator {
+    display: none;
 }
