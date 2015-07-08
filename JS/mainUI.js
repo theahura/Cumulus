@@ -17,6 +17,10 @@ $("#Cancel").click(function hideInputLogin() {
     document.getElementById("LoginButton").style.display = "inline";
     document.getElementById("UsernameField").style.display = "none";
     document.getElementById("PasswordField").style.display = "none";
-
+(
     document.getElementById("Cancel").style.display = "none";
 });
+
+/*$('#NewUserButton').click(function showUserCreation() {
+
+});*/

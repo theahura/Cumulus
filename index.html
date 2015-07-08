@@ -4,7 +4,7 @@
 		<title>Cumulus</title>
 		<link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
 		<link rel="stylesheet" href="css/mainUI.css" type="text/css" charset="utf-8" />
-		<script src="http://54.86.173.127:3009/socket.io/socket.io.js"></script>
+		<!--<script src="http://54.86.173.127:3009/socket.io/socket.io.js"></script> -->
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 		<script type="text/javascript" src="https://apis.google.com/js/client.js"></script> 
 	</head>
@@ -23,7 +23,7 @@
 		    <div id="UsernameField" class="inputfield" contenteditable="true">Username</div>
 		</div>
 		<div class="content">
-		    <div class="about">
+		    <div class="about" id="flavortext">
 		         <h2>It's a big cloud service.</h2>
 
 		         <h3><em>For you.</em></h3>
@@ -43,6 +43,19 @@
 		        <br>
 		        <p>Cumulus is for those users who need gratuitous amounts of storage.</p>
 		        <p>Combining Google Drive, Dropbox, and maybe some other things, Cumulus offers a secure, unified storage space. Keeping track of your files has probably never been this easy!</p>
+		    </div>
+		    <div class="about" id="usercreator">
+		    	<h2>Creating an account is fast and easy.</h2>
+		    	<br>
+		    	<form>
+		    		<input type="text" name="firstname"> First name
+		    		<br>
+		    		<input type="text" name="lastname"> Last name
+		    		<br>
+		    		<input type="email" name="email"> Email
+		    		<br>
+		    		<input type="password" name="password"> Password
+		    	</form>
 		    </div>
 		</div>
 
