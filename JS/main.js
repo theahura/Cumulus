@@ -6,13 +6,17 @@
 Runner file. Executes program, initializes available libraries, etc. 
 */
 
-//Connection to Backend
-socket = io('http://54.86.173.127:3009');
-
 //Event triggers
 $("#LoginButton").click(function()
 {   
-	alert("Already logged in"); 
+	userName = prompt("User Name?");
+	password = prompt("Password?");
+
+	socket.emit("clientToServer", {
+		name: "login",
+		username: userName,
+		password: password
+	});
 });
 
 $("#LogoutButton").click(function()
@@ -27,7 +31,7 @@ $("#NewUserButton").click(function()
 
 	socket.emit("clientToServer", {
 		name: "newUser",
-		userName: userName,
+		username: userName,
 		password: password
 	});
 });
