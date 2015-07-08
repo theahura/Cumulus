@@ -7,7 +7,7 @@ Runner file. Executes program, initializes available libraries, etc.
 */
 
 //Event triggers
-$("#LoginButton").click(function()
+/*$("#LoginButton").click(function()
 {   
 	userName = prompt("User Name?");
 	password = prompt("Password?");
