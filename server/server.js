@@ -21,24 +21,6 @@ function storeDataToDb(socket, data)
 	return true;
 }
 
-function loginResponse(socket, data)
-{
-	console.log(data.Item.userKey.S)
-	socket.emit('serverToClient', {
-		name: 'loginSuccess',
-		userKey: data.Item.userKey.S
-	});
-}
-
-function newUserResponse(socket, data)
-{
-	console.log(data)
-	socket.emit('serverToClient', {
-		name: 'newUserSuccess',
-		userKey: data
-	});
-}
-
 function serverError(socket, message)
 {
 	socket.emit('serverToClient',{
@@ -67,7 +49,7 @@ function serverHandler(socket, incomingObj)
 			return;
 		}
 
-		loginTools.checkOldUser(socket, userTable, incomingObj, loginResponse);
+		loginTools.loginUser(socket, userTable, incomingObj);
 	}
 	else if(incomingObj.name === 'newUser')
 	{
@@ -83,7 +65,7 @@ function serverHandler(socket, incomingObj)
 			return;
 		}
 
-		loginTools.regNewUser(socket, userTable, incomingObj, newUserResponse);
+		loginTools.regNewUser(socket, userTable, incomingObj);
 	}
 	else
 	{

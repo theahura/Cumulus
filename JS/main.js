@@ -7,14 +7,14 @@ Runner file. Executes program, initializes available libraries, etc.
 */
 
 //Event triggers
-/*$("#LoginButton").click(function()
+$("#LoginButton").click(function()
 {   
-	userName = prompt("User Name?");
+	username = prompt("User Name?");
 	password = prompt("Password?");
 
 	socket.emit("clientToServer", {
 		name: "login",
-		username: userName,
+		username: username,
 		password: password
 	});
 });
@@ -26,12 +26,16 @@ $("#LogoutButton").click(function()
 
 $("#NewUserButton").click(function()
 {
-	userName = prompt("User Name?");
+	username = prompt("User Name?");
 	password = prompt("Password?");
+	email = prompt("Email?");
+	fullname = prompt("Name?");
 
 	socket.emit("clientToServer", {
 		name: "newUser",
-		username: userName,
-		password: password
+		username: username,
+		password: password,
+		email: email, 
+		fullname: fullname
 	});
 });

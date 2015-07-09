@@ -18,10 +18,20 @@ socket.on('serverToClient', function(data)
 		console.log(data.userKey);
 		alert("Logged in! " + data.userKey);
 	}
+	else if(data.name === 'loginFailure')
+	{
+		console.log(data.error)
+		alert(data.error)
+	}
 	else if(data.name === 'newUserSuccess')
 	{
 		console.log(data.userKey);
 		alert('New User Success! ' + data.userKey);
+	}
+	else if(data.name === 'newUserFailure')
+	{
+		console.log(data.error)
+		alert(data.error)
 	}
 	else
 	{
