@@ -5,15 +5,34 @@
 
 User registration and login module 
 */
+
+//AWS dependency - not sure if needed? 
 var AWS = require('aws-sdk');
 AWS.config.region = 'us-east-1';
 
-//helpers
+//Helper functions--------------------------------------------------------------------------------------------------
+
+/**
+	Takes username and password and generates a unique crypto hash that is extremely secure and uncrackable
+
+	@param: username; string; username of the account
+	@param: password; string; password for the account
+
+	@return: userKey; unique key that allows a user to access data for their account
+*/
 function generateUserKey(username, password)
 {
 	return username+password;
 } 
 
+/**
+	Checks database if the current username is already taken. If so, sends newUserResponseFailure message. 
+
+	@param: socket; socket.io socket; connection to send failure message to
+	@param: table; dynamodb table; where to search for data
+	@param: username; string; the username to search for 
+	@param: callback; function; the function to call when the search is finished and successful
+*/
 function checkUser(socket, table, username, callback)
 {
 	table.getItem({Key: {'username':{'S':username}}}, function(err, data) 
@@ -34,8 +53,16 @@ function checkUser(socket, table, username, callback)
 	});
 }
 
-//login responses
+//Login Responses--------------------------------------------------------------------------------------------------
 
+/**
+	Function to emit data when user login fails
+
+	@param: socket; socket.io socket; connection to send data to
+	@param: data; {}; data to send
+		@param: data.message; string; data message to send
+	@param: extraKey; string; additional info to send about the error
+*/
 function loginResponseFailure(socket, data, extraKey)
 {
 	socket.emit('serverToClient', {
@@ -45,6 +72,26 @@ function loginResponseFailure(socket, data, extraKey)
 	});
 }
 
+/**
+	See above.
+*/
+function newUserResponseFailure(socket, data, extraKey)
+{
+	socket.emit('serverToClient', {
+		name: 'newUserFailure',
+		error: data.message,
+		extraKey: extraKey
+	});
+}
+
+/**
+	Function to emit data when user login succeeds, or sends to failure if data is not correct. 
+
+	On success, messages the userKey to the user
+
+	@param: socket; socket.io socket; connection to send data to
+	@param: data; {}; data to send
+*/
 function loginResponseSuccess(socket, data)
 {
 	if(!data.Item)
@@ -59,15 +106,9 @@ function loginResponseSuccess(socket, data)
 	});
 }
 
-function newUserResponseFailure(socket, data, extraKey)
-{
-	socket.emit('serverToClient', {
-		name: 'newUserFailure',
-		error: data.message,
-		extraKey: extraKey
-	});
-}
-
+/**
+	See above
+*/
 function newUserResponseSuccess(socket, data)
 {
 	socket.emit('serverToClient', {
@@ -76,8 +117,21 @@ function newUserResponseSuccess(socket, data)
 	});
 }
 
+
+//Exposed functions
 module.exports = 
 {
+	/**
+		Logs the user in and runs proper checks, sending info back as appropriate (either error or userkey)
+
+		@param: socket; socket.io socket; connection to send data to 
+		@param: table; dynamodb table; where to search for login info
+		@param: incomingObj; {}
+			@param: username; string; username for account login
+			@param: password; string; password for account login
+		@param: callback; function; the function to call if successfull login (default = loginResponseSuccess)
+		@param: callbackErr; function; the function to call if failed login (default = loginResponseFailure)
+	*/
 	loginUser: function(socket, table, incomingObj, callback, callbackErr)
 	{
 		// Read the item from the table
@@ -98,6 +152,17 @@ module.exports =
 	  	});
 	}, 
 
+	/**
+		Creates new account and runs proper checks, sending info back as appropriate (either error or userkey)
+
+		@param: socket; socket.io socket; connection to send data to 
+		@param: table; dynamodb table; where to search for login info
+		@param: incomingObj; {}
+			@param: username; string; username for account login
+			@param: password; string; password for account login
+		@param: callback; function; the function to call if successfull login (default = loginResponseSuccess)
+		@param: callbackErr; function; the function to call if failed login (default = loginResponseFailure)
+	*/
 	regNewUser: function(socket, table, incomingObj, callback, callbackErr)
 	{
 		checkUser(socket, table, incomingObj.username, function()
