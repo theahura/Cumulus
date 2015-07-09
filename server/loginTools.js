@@ -39,7 +39,6 @@ function checkUser(socket, table, username, callback)
 	{
 		if(err)
 		{
-			console.log(err)
 			newUserResponseFailure(socket, err);
 		}
 		else if(data.Item)
@@ -65,6 +64,7 @@ function checkUser(socket, table, username, callback)
 */
 function loginResponseFailure(socket, data, extraKey)
 {
+	console.log(data)
 	socket.emit('serverToClient', {
 		name: 'loginFailure',
 		error: data.message,
@@ -77,6 +77,7 @@ function loginResponseFailure(socket, data, extraKey)
 */
 function newUserResponseFailure(socket, data, extraKey)
 {
+	console.log(data)
 	socket.emit('serverToClient', {
 		name: 'newUserFailure',
 		error: data.message,
@@ -135,7 +136,7 @@ module.exports =
 	loginUser: function(socket, table, incomingObj, callback, callbackErr)
 	{
 		// Read the item from the table
-	  	table.getItem({Key: {'username':{'S':incomingObj.username}, 'password':{'S':incomingObj.password}}}, function(err, data) 
+	  	table.getItem({Key: {'username':{'S':incomingObj.username}}}, function(err, data) 
 	  	{
 	  		if(err)
 			{
@@ -145,9 +146,18 @@ module.exports =
 			}	  		
 			else
 	  		{
-	  			if(!callback)
-	  				callback = loginResponseSuccess;
-	    		callback(socket, data); // print the item data	  		
+	  			if(data.Item.password.S === incomingObj.password)
+	  			{
+		  			if(!callback)
+		  				callback = loginResponseSuccess;
+		    		callback(socket, data); // print the item data	  	
+		    	}
+		    	else
+		    	{
+		    		if(!callbackErr)
+						callbackErr = loginResponseFailure;
+					callbackErr(socket, {message: 'Username/Password not valid'});
+		    	}	
 	  		}
 	  	});
 	}, 
@@ -183,8 +193,6 @@ module.exports =
 
 			var itemParams = {Item: dataObj};
 			
-			console.log(itemParams);
-
 			table.putItem(itemParams, function(err, data) {
 				if(err)
 				{
