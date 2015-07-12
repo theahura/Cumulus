@@ -135,28 +135,36 @@ module.exports =
 	*/
 	loginUser: function(socket, table, incomingObj, callback, callbackErr)
 	{
+		if(!callbackErr)
+			callbackErr = loginResponseFailure;
+
+		if(!callback)
+			callback = loginResponseSuccess;
+
 		// Read the item from the table
 	  	table.getItem({Key: {'username':{'S':incomingObj.username}}}, function(err, data) 
 	  	{
 	  		if(err)
 			{
-				if(!callbackErr)
-					callbackErr = loginResponseFailure;
 				callbackErr(socket, err);
 			}	  		
 			else
 	  		{
+
+	  			if(Object.keys(data).length === 0)
+	  			{
+	  				callbackErr(socket, {message: 'Username/Password not valid'}, 'appError');
+	  				return;
+	  			}
+
 	  			if(data.Item.password.S === incomingObj.password)
 	  			{
-		  			if(!callback)
-		  				callback = loginResponseSuccess;
 		    		callback(socket, data); // print the item data	  	
 		    	}
 		    	else
 		    	{
-		    		if(!callbackErr)
-						callbackErr = loginResponseFailure;
-					callbackErr(socket, {message: 'Username/Password not valid'});
+					callbackErr(socket, {message: 'Username/Password not valid'}, 'appError');
+					return;
 		    	}	
 	  		}
 	  	});

@@ -7,10 +7,9 @@ Runner file. Executes program, initializes available libraries, etc.
 */
 
 //Event triggers
-$("#LoginButton").click(function()
-{   
-	username = prompt("User Name?");
-	password = prompt("Password?");
+$("#LoginButton").click(function() {   
+	var username = prompt("User Name?");
+	var password = prompt("Password?");
 
 	socket.emit("clientToServer", {
 		name: "login",
@@ -19,23 +18,24 @@ $("#LoginButton").click(function()
 	});
 });
 
-$("#LogoutButton").click(function()
-{   
+$("#LogoutButton").click(function() {   
 	alert("Not logged in");
 });
 
-$("#NewUserButton").click(function()
-{
-	username = prompt("User Name?");
-	password = prompt("Password?");
-	email = prompt("Email?");
-	fullname = prompt("Name?");
+$("#RegisterNewUser").submit(function(event) {
+	event.preventDefault();
 
+    var $inputs = $('#RegisterNewUser :input');
+	var values = {};
+    $inputs.each(function() {
+        values[this.name] = $(this).val();
+    });
+    
 	socket.emit("clientToServer", {
 		name: "newUser",
-		username: username,
-		password: password,
-		email: email, 
-		fullname: fullname
+		username: values.username,
+		password: values.password,
+		email: values.email, 
+		fullname: values.firstname + values.lastname
 	});
 });
