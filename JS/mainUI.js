@@ -5,6 +5,7 @@ $("#UsernameField, #PasswordField").click(function clearBox(itemID) {
 $("#LoginButton").click(function showInputLogin() {
     document.getElementById("NewUserButton").style.display = "none";
     document.getElementById("LoginButton").style.display = "none";
+    document.getElementById("SubmitLogin").style.display = "inline";
     document.getElementById("UsernameField").style.display = "inline";
     document.getElementById("PasswordField").style.display = "inline";
     document.getElementById("Cancel").style.display = "inline";
@@ -14,6 +15,7 @@ $("#LoginButton").click(function showInputLogin() {
 $("#Cancel").click(function hideInputLogin() {
     document.getElementById("NewUserButton").style.display = "inline";
     document.getElementById("LoginButton").style.display = "inline";
+    document.getElementById("SubmitLogin").style.display = "none";
     document.getElementById("UsernameField").style.display = "none";
     document.getElementById("PasswordField").style.display = "none";
 
