@@ -103,7 +103,8 @@ function loginResponseSuccess(socket, data)
 
 	socket.emit('serverToClient', {
 		name: 'loginSuccess',
-		userKey: data.Item.userKey.S
+		userKey: data.Item.userKey.S, 
+		username: data.Item.username.S
 	});
 }
 

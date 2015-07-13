@@ -3,8 +3,14 @@
 @date: 7-7-15
 @version: 0.1
 
-Global config location for all multi-file-wide files
+Global config location for all multi-file-wide files (client side)
 */
 
 //Connection to Backend
-socket = io('http://54.86.173.127:5000');
+var socket = io('http://54.86.173.127:5000');
+
+//Account info from login
+var userKey = "";
+var username = "";
+var userEmail = "";
+

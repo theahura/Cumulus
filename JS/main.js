@@ -30,7 +30,7 @@ $("#RegisterNewUser").submit(function(event) {
     $inputs.each(function() {
         values[this.name] = $(this).val();
     });
-    
+
 	socket.emit("clientToServer", {
 		name: "newUser",
 		username: values.username,
