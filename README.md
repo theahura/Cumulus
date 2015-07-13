@@ -8,12 +8,13 @@ ________________________________________________________________________________
 
 Current updates needed: 
 
-	- add forms to login and new user buttons to make current data transfer easier
-	- design return trip for user key code and test test test
 	- make sure file id storage works as expected
+	- update frontend cloud storage aspect
+	- update frontend user login to forms
+	- start building front end runner that interacts with the backend 
 
 Recent updates: 
-
+	7-12-15: User reg has all bells and whistles and is attached to front end
 	7-5-15: Got user reg more or less working
 	Late July: Tested baseAPI and Google Drive API on client w/ backend,all worked together
 	Late July: Hooked up dynamoDB, got server instance working 	
