@@ -21,8 +21,7 @@ var io = require('socket.io').listen(5000);
 
 	@return: true if alphanumeric string of some length, false otherwise
 */
-function isSanitized(inputString)
-{
+function isSanitized(inputString) {
 	if(!inputString || typeof inputString !== 'string' || inputString.length === 0 || !/^[a-z0-9]+$/i.test(inputString))
 		return false;
 	return true;
@@ -34,8 +33,7 @@ function isSanitized(inputString)
 	@param: socket; socket.io connection; connection to user who needs to see error
 	@param: message; string; the message to send to the user
 */
-function serverError(socket, message)
-{
+function serverError(socket, message) {
 	socket.emit('serverToClient',{
 		name: 'Error',
 		message: message
@@ -49,70 +47,57 @@ function serverError(socket, message)
 	@param: socket; socket.io connection; the connection to the client sending data
 	@param: incomingObj; obj; data sent from client
 */
-function serverHandler(socket, incomingObj)
-{
-	if(incomingObj.name === 'store')
-	{
+function serverHandler(socket, incomingObj) {
+	if(incomingObj.name === 'store') {
 		storeDataToDb(socket, incomingObj);
 	}
-	else if(incomingObj.name === 'login')
-	{
-		if(!isSanitized(incomingObj.username))
-		{
+	else if(incomingObj.name === 'login') {
+		if(!isSanitized(incomingObj.username)) {
 			serverError(socket, "No or invalid username");
 			return;
 		}
 
-		if(!isSanitized(incomingObj.password))
-		{
+		if(!isSanitized(incomingObj.password)) {
 			serverError(socket, "No or invalid password");
 			return;
 		}
 
 		loginTools.loginUser(socket, userTable, incomingObj);
 	}
-	else if(incomingObj.name === 'newUser')
-	{
-		if(!isSanitized(incomingObj.username))
-		{
+	else if(incomingObj.name === 'newUser') {
+		if(!isSanitized(incomingObj.username)) {
 			serverError(socket, "No or invalid username");
 			return;
 		}
 
-		if(!isSanitized(incomingObj.password))
-		{
+		if(!isSanitized(incomingObj.password)) {
 			serverError(socket, "No or invalid password");
 			return;
 		}
 
 		var testEmail = incomingObj.email.replace('@', '').replace('.', '');
-		if(!isSanitized(testEmail))
-		{
+		if(!isSanitized(testEmail)) {
 			serverError(socket, "No or invalid email");
 			return;
 		}
 
-		if(!isSanitized(incomingObj.fullname))
-		{
+		if(!isSanitized(incomingObj.fullname)) {
 			serverError(socket, "No or invalid fullname");
 			return;
 		}
 
 		loginTools.regNewUser(socket, userTable, incomingObj);
 	}
-	else
-	{
+	else {
 		serverError(socket, 'No Name match');
 	}
 }
 
 //On an io socket connection...
 //Main
-io.sockets.on('connection', function(socket) 
-{
+io.sockets.on('connection', function(socket) {
 	console.log("CONNECTED")
-	socket.on('clientToServer', function(data)
-	{
+	socket.on('clientToServer', function(data) {
 		if(!(data && data.name))
 			serverError(socket, 'Data did not have a name');
 

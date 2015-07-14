@@ -10,7 +10,8 @@ Global config location for all multi-file-wide files (client side)
 var socket = io('http://54.86.173.127:5000');
 
 //Account info from login
-var userKey = "";
-var username = "";
-var userEmail = "";
+var global_userKey = "";
 
+//APIs
+var global_baseAPI = null;
+var global_googleAPI = null;

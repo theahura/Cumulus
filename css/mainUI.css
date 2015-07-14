@@ -1,6 +1,13 @@
 html {
     width: 100%;
     overflow-x: hidden;
+
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 body {
     font-family:'Roboto', sans-serif;
@@ -11,8 +18,12 @@ body {
 h1 {
     color: white;
     font-size: 22pt;
-    float: left;
-    margin: 10px;
+}
+
+ul {
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
 }
 
 table {
@@ -32,6 +43,12 @@ td {
     border-radius: 1px;
 }
 
+input {
+    width: 400px;
+    height: 20px;
+    margin: 10px;
+}
+
 input[type="file"] {
     margin-top: 50px;
     width: 100%;
@@ -46,7 +63,6 @@ p {
 .button {
     padding: 5px;
     margin: 10px;
-    float: right;
     border-style: solid;
     border-color: white;
     border-radius: 2px;
@@ -57,12 +73,6 @@ p {
     transition: color .1s;
     -webkit-transition: background-color .1s;
     transition: background-color .1s;
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
 }
 
 .button:hover {
@@ -82,10 +92,62 @@ p {
     top: 0;
 }
 
-    #logo {
+    .header-container {
+        width: 100%;
         display: inline-block;
-        cursor: pointer;
     }
+
+        .header-container li {
+            display: inline-block;
+            text-align: center;
+            width: 33%;
+            height: 100%
+        }
+
+        .header-container-left {
+        }
+
+            #logo {
+                height: 100%;
+                width: 100%;
+                cursor: pointer;
+            }
+
+        .header-container-center {
+
+        }
+
+        .header-container-right {
+            height: 100%;
+        }
+
+            .header-container-right div {
+                display: inline;
+                height: 100%;
+            }
+
+            #UsernameField {
+                display: none;
+                height: 12pt;
+                width: 100px;
+            }
+            #PasswordField {
+                height: 12pt;
+                width: 100px;
+                display: none;
+            }
+
+            #Cancel {
+                display: none;
+            }
+
+            #SubmitLogin {
+                display: none;
+            }
+
+            #CurrentLogin {
+
+            }
 
 .content {
     padding-top: 75px;
@@ -103,32 +165,9 @@ p {
         border-radius: 3px;
     }
 
-    #UsernameField {
-        display: none;
-        height: 12pt;
-        width: 100px;
-    }
-    #PasswordField {
-        height: 12pt;
-        width: 100px;
-        display: none;
-    }
-
-    #Cancel
-    {
-        display: none;
-    }
-
-    #SubmitLogin
-    {
-        display: none;
-    }
-
-
     .inputfield {
         padding: 5px;
         margin: 10px;
-        float: right;
         border-radius: 3px;
         background-color: white;
         color: #B2B2B2;
@@ -143,6 +182,7 @@ p {
     #delete {
         width: 34%;
     }
+
 .largebutton {
     cursor: pointer;
 }
@@ -161,14 +201,6 @@ p {
     color: #CCCCCC;
     font-size: 9pt;
 }
-
-input {
-    width: 400px;
-    height: 20px;
-    margin: 10px;
-}
-
-
 
 #GetStartedButton {
     width: 400px;

@@ -6,38 +6,30 @@
 Handles incoming/outgoing server connections
 */
 
-socket.on('serverToClient', function(data)
-{
-	if(data.name === 'Error')
-	{
+socket.on('serverToClient', function(data) {
+	if(data.name === 'Error') {
 		console.log(data.message);
 		alert(data.message);
 	}
-	else if(data.name === 'loginSuccess')
-	{
+	else if(data.name === 'loginSuccess') {
 		console.log(data.userKey);
 		alert("Logged in! " + data.userKey);
 
-		userKey = data.userKey;
-		username = data.username;
+		login(data)
 	}
-	else if(data.name === 'loginFailure')
-	{
+	else if(data.name === 'loginFailure') {
 		console.log(data.error)
 		alert(data.error)
 	}
-	else if(data.name === 'newUserSuccess')
-	{
+	else if(data.name === 'newUserSuccess') {
 		console.log(data.userKey);
 		alert('New User Success! ' + data.userKey);
 	}
-	else if(data.name === 'newUserFailure')
-	{
+	else if(data.name === 'newUserFailure') {
 		console.log(data.error)
 		alert(data.error)
 	}
-	else
-	{
+	else {
 		alert("no name found");
 	}
 });

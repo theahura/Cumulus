@@ -20,8 +20,7 @@ AWS.config.region = 'us-east-1';
 
 	@return: userKey; unique key that allows a user to access data for their account
 */
-function generateUserKey(username, password)
-{
+function generateUserKey(username, password) {
 	return username+password;
 } 
 
@@ -33,20 +32,15 @@ function generateUserKey(username, password)
 	@param: username; string; the username to search for 
 	@param: callback; function; the function to call when the search is finished and successful
 */
-function checkUser(socket, table, username, callback)
-{
-	table.getItem({Key: {'username':{'S':username}}}, function(err, data) 
-	{
-		if(err)
-		{
+function checkUser(socket, table, username, callback) {
+	table.getItem({Key: {'username':{'S':username}}}, function(err, data)  {
+		if(err) {
 			newUserResponseFailure(socket, err);
 		}
-		else if(data.Item)
-		{
+		else if(data.Item) {
 			newUserResponseFailure(socket, {message: 'Username already taken'}, 'appError');
 		}
-		else
-		{
+		else {
 			callback();
 		}
 	});
@@ -62,8 +56,7 @@ function checkUser(socket, table, username, callback)
 		@param: data.message; string; data message to send
 	@param: extraKey; string; additional info to send about the error
 */
-function loginResponseFailure(socket, data, extraKey)
-{
+function loginResponseFailure(socket, data, extraKey) {
 	console.log(data)
 	socket.emit('serverToClient', {
 		name: 'loginFailure',
@@ -75,8 +68,7 @@ function loginResponseFailure(socket, data, extraKey)
 /**
 	See above.
 */
-function newUserResponseFailure(socket, data, extraKey)
-{
+function newUserResponseFailure(socket, data, extraKey) {
 	console.log(data)
 	socket.emit('serverToClient', {
 		name: 'newUserFailure',
@@ -93,10 +85,8 @@ function newUserResponseFailure(socket, data, extraKey)
 	@param: socket; socket.io socket; connection to send data to
 	@param: data; {}; data to send
 */
-function loginResponseSuccess(socket, data)
-{
-	if(!data.Item)
-	{
+function loginResponseSuccess(socket, data) {
+	if(!data.Item) {
 		loginResponseFailure(socket, {message: 'Username/Password not valid'});
 		return;
 	}
@@ -105,14 +95,16 @@ function loginResponseSuccess(socket, data)
 		name: 'loginSuccess',
 		userKey: data.Item.userKey.S, 
 		username: data.Item.username.S
+		password: data.Item.password.S
+		email: data.Item.email.S
+		fullname: data.Item.fullname.S
 	});
 }
 
 /**
 	See above
 */
-function newUserResponseSuccess(socket, data)
-{
+function newUserResponseSuccess(socket, data) {
 	socket.emit('serverToClient', {
 		name: 'newUserSuccess',
 		userKey: data
@@ -121,8 +113,7 @@ function newUserResponseSuccess(socket, data)
 
 
 //Exposed functions
-module.exports = 
-{
+module.exports = {
 	/**
 		Logs the user in and runs proper checks, sending info back as appropriate (either error or userkey)
 
@@ -134,8 +125,7 @@ module.exports =
 		@param: callback; function; the function to call if successfull login (default = loginResponseSuccess)
 		@param: callbackErr; function; the function to call if failed login (default = loginResponseFailure)
 	*/
-	loginUser: function(socket, table, incomingObj, callback, callbackErr)
-	{
+	loginUser: function(socket, table, incomingObj, callback, callbackErr) {
 		if(!callbackErr)
 			callbackErr = loginResponseFailure;
 
@@ -143,27 +133,21 @@ module.exports =
 			callback = loginResponseSuccess;
 
 		// Read the item from the table
-	  	table.getItem({Key: {'username':{'S':incomingObj.username}}}, function(err, data) 
-	  	{
-	  		if(err)
-			{
+	  	table.getItem({Key: {'username':{'S':incomingObj.username}}}, function(err, data) {
+	  		if(err) {
 				callbackErr(socket, err);
 			}	  		
-			else
-	  		{
+			else {
 
-	  			if(Object.keys(data).length === 0)
-	  			{
+	  			if(Object.keys(data).length === 0) {
 	  				callbackErr(socket, {message: 'Username/Password not valid'}, 'appError');
 	  				return;
 	  			}
 
-	  			if(data.Item.password.S === incomingObj.password)
-	  			{
+	  			if(data.Item.password.S === incomingObj.password) {
 		    		callback(socket, data); // print the item data	  	
 		    	}
-		    	else
-		    	{
+		    	else {
 					callbackErr(socket, {message: 'Username/Password not valid'}, 'appError');
 					return;
 		    	}	
@@ -182,16 +166,13 @@ module.exports =
 		@param: callback; function; the function to call if successfull login (default = loginResponseSuccess)
 		@param: callbackErr; function; the function to call if failed login (default = loginResponseFailure)
 	*/
-	regNewUser: function(socket, table, incomingObj, callback, callbackErr)
-	{
-		checkUser(socket, table, incomingObj.username, function()
-		{
+	regNewUser: function(socket, table, incomingObj, callback, callbackErr) {
+		checkUser(socket, table, incomingObj.username, function() {
 			userKey = generateUserKey(incomingObj.username, incomingObj.password);
 
 			dataObj = {};
 
-			for(key in incomingObj)
-			{
+			for(key in incomingObj) {
 				if(key === 'name')
 					continue;
 
@@ -203,14 +184,12 @@ module.exports =
 			var itemParams = {Item: dataObj};
 			
 			table.putItem(itemParams, function(err, data) {
-				if(err)
-				{
+				if(err) {
 					if(!callbackErr)
 						callbackErr = newUserResponseFailure;
 					callbackErr(socket, err);
 				}
-				else
-				{
+				else {
 					if(!callback)
 						callback = newUserResponseSuccess;
 					callback(socket, userKey);

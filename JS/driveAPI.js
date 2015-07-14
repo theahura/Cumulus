@@ -9,8 +9,7 @@ This class defines the functions for Google Drive API
 Google Drive API class
 @param: library; mongodb collection to store file info
 */
-function GoogleAPI(parent)
-{
+function GoogleAPI(parent) {
     //Constructor
     this.APIname = "gDrive"
 
@@ -19,16 +18,14 @@ function GoogleAPI(parent)
     var CLIENT_ID = '871670712835-a5a2j5uaein2copvj19vqia8girjk8jl.apps.googleusercontent.com';
     var SCOPES = 'https://www.googleapis.com/auth/drive';
 
-    this.storeDataToDB = function(fileData)
-    {
+    this.storeDataToDB = function(fileData) {
         const boundary = '-------314159265358979323846';
         const delimiter = "\r\n--" + boundary + "\r\n";
         const close_delim = "\r\n--" + boundary + "--";
 
         var reader = new FileReader();
         reader.readAsBinaryString(fileData);
-        reader.onload = function(e) 
-        {
+        reader.onload = function(e) {
             var contentType = fileData.type || 'application/octet-stream';
             var metadata = {
                 'title': fileData.name,
@@ -57,21 +54,18 @@ function GoogleAPI(parent)
                 'body': multipartRequestBody});
 
             //GET THE FILE ID AND STORE TO DYNAMO THROUGH THE PARENT
-            request.execute(function (file) 
-            {
+            request.execute(function (file) {
                 return file.id;
             });
         }
     }
 
-    this.retrieveDataFromDB = function(fileId)
-    {
+    this.retrieveDataFromDB = function(fileId) {
         var request = gapi.client.drive.files.get({
             'fileId': fileId
         });
 
-        request.execute(function(resp) 
-        {
+        request.execute(function(resp) {
             console.log('Title: ' + resp.title);
             console.log('Description: ' + resp.description);
             console.log('MIME type: ' + resp.mimeType);
@@ -79,8 +73,7 @@ function GoogleAPI(parent)
         });
     }
 
-    this.deleteDataFromDB = function(fileNameAndPath, userKey)
-    {
+    this.deleteDataFromDB = function(fileNameAndPath, userKey) {
         var request = gapi.client.drive.files.delete({
             'fileId': fileId
         });
@@ -88,51 +81,44 @@ function GoogleAPI(parent)
         request.execute(function(resp) { });
     }
 
-    this.loginToAPI = function()
-    {
+    this.loginToAPI = function() {
         //  document.getElementById("LoadingColor").style.display = "block";
         gapi.client.load('drive', 'v2', checkAuth);
 
-        function checkAuth() 
-        {
+        function checkAuth() {
             gapi.auth.authorize(
                {'client_id': CLIENT_ID, 'scope': SCOPES, 'immediate': true},
                login);
         }
 
-        function login(authResult) 
-        {        
+        function login(authResult) {        
            if (authResult && !authResult.error) {
                var request = gapi.client.drive.about.get(); //gets username
-               request.execute(function(resp) 
-               {
-                    alert("Logged in to Google Drive as: " + User);
-                                                            
+               request.execute(function(resp) {
+                    alert("Logged in to Google Drive as: " + resp.name);
+                    
+                    parent.loginToAPI(this);
+
                     return true;
                });
            }
-           else if (authResult && authResult.error)
-           {
-               if (authResult.error === "immediate_failed" || authResult.error === "access_denied")
-               {
+           else if (authResult && authResult.error) {
+               if (authResult.error === "immediate_failed" || authResult.error === "access_denied") {
                     alert("Not logged in to Google Drive");
                }
-               else
-               {
+               else {
                    alert("There was an error: " + authResult.error)
                }
                return false; 
            }
-           else
-           {
+           else {
                alert("Not logged in to Google Drive");
                return false;
            }
         }
     }
 
-    this.logoutFromAPI = function()
-    {
+    this.logoutFromAPI = function() {
         //sets up the url to revoke the login token
         var revokeUrl = 'https://accounts.google.com/o/oauth2/revoke?token=' + gapi.auth.getToken().access_token;
 
@@ -143,18 +129,15 @@ function GoogleAPI(parent)
             async: false,
             contentType: "application/json",
             dataType: 'jsonp',
-            success: function(nullResponse) 
-            {
+            success: function(nullResponse) {
                 alert("Logged Out of Google Drive");
             },
             
-            error: function(e) 
-            {
+            error: function(e) {
                 alert("There was an error: " + e);
             }
         });
     }
-
 }
 
 

@@ -34,16 +34,14 @@ Base API class.
 
 @param: library; dynamodb collection to store file info
 */
-function baseAPI(socket, userKey)
-{
+function baseAPI(socket, userKey) {
 	//Constructor
 	var socket = socket
 	var userKey = userKey
 
 	var availableAPIs = []
 
-	this.storeDataToDB = function(file)
-	{
+	this.storeDataToDB = function(file) {
 		postObj = {
 			"name": 'store',
 			"userKey": userKey,
@@ -51,8 +49,7 @@ function baseAPI(socket, userKey)
 
 		//check for api size, determine which api to store to based on file, etc. etc. 
 
-		for(api in availableAPIs)
-		{
+		for(api in availableAPIs) {
 			postObj[api.APIname] = api.storeDataToDB(file)
 		}
 
@@ -60,23 +57,21 @@ function baseAPI(socket, userKey)
 		socket.emit("clientToServer", postObj);
 	}
 
-	this.retrieveDataFromDB = function(fileNameAndPath)
-	{
-		//store information about file to dynamo through a server
+	this.retrieveDataFromDB = function(fileNameAndPath) {
+		//grab dynamo info from server, send it to the appropriate apis
 	}
 
-	this.deleteDataFromDB = function(fileNameAndPath)
-	{
-		//store information about file to dynamo through a server
+	this.deleteDataFromDB = function(fileNameAndPath) {
+		//grab dynamo info from server, send it to the appropriate apis
 	}
 
-	this.loginToAPI = function(api)
-	{
-		availableAPIs.push(api)
+	this.loginToAPI = function(api) {
+		availableAPIs.push(api);
+		console.log(availableAPIs);
+		alert("API ADDED");
 	}
 
-	this.logoutFromAPI = function(api)
-	{
+	this.logoutFromAPI = function(api) {
 		var index = availableAPIs.indexOf(api)
 		availableAPIs.splice(index, 1)
 	}

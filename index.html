@@ -12,16 +12,24 @@
 
 	<body>
 		<div class="header">
-		    <div id="logo">
-		         <h1> CUMULUS </h1>
-
-		    </div>
-		    <div id="Cancel" class="button">Cancel</div>
-		    <div id="SubmitLogin" class="button">Submit</div>
-		    <div id="NewUserButton" class="button">Create Account</div>
-		    <div id="LoginButton" class="button">Login</div>
-		    <div id="PasswordField" class="inputfield" contenteditable="true">Password</div>
-		    <div id="UsernameField" class="inputfield" contenteditable="true">Username</div>
+			<ul class="header-container">
+				<li class="header-container-left">
+					<div id="logo">
+		         		<h1> CUMULUS </h1>
+		    		</div>
+				</li>
+				<li class="header-container-center">
+					<div id="CurrentLogin">Not logged in</div>
+				</li>
+				<li class="header-container-right">
+				    <div id="PasswordField" class="inputfield" contenteditable="true">Password</div>
+				    <div id="UsernameField" class="inputfield" contenteditable="true">Username</div>
+					<div id="Cancel" class="button">Cancel</div>
+				    <div id="SubmitLogin" class="button">Submit</div>
+				    <div id="NewUserButton" class="button">Create Account</div>
+				    <div id="LoginButton" class="button">Login</div>
+				</li>
+			</ul>
 		</div>
 		<div class="content">
 		    <div class="about" id="FlavorText">
@@ -71,9 +79,12 @@
 		</div>
 
 		<script src="JS/global.js"></script>
+		<!--Libraries and such-->
 		<script src="JS/driveAPI.js"></script>
 		<script src="JS/baseAPIclass.js"></script>
-		<script src="JS/clientToServerHandler.js"></script>
+		<script src="JS/user.js"></script>
+		<!--All the actual function calls are in here-->
+		<script src="JS/serverToClientHandler.js"></script>
 		<script src="JS/mainUI.js"></script>
 		<script src="JS/main.js"></script>
 	</body>

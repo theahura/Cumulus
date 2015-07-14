@@ -6,6 +6,9 @@
 Runner file. Executes program, initializes available libraries, etc. 
 */
 
+global_baseAPI = new baseAPI()
+global_googleAPI = new GoogleAPI(baseAPI)
+
 //Event triggers
 $("#SubmitLogin").click(function() {   
 	var username = $("#UsernameField").html()
@@ -36,6 +39,10 @@ $("#RegisterNewUser").submit(function(event) {
 		username: values.username,
 		password: values.password,
 		email: values.email, 
-		fullname: values.firstname + values.lastname
+		fullname: values.firstname + " " + values.lastname
 	});
+});
+
+$("#DriveLoginButton").click(function(){
+	global_googleAPI.loginToAPI();
 });
