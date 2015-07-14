@@ -11,7 +11,10 @@ var global_userEmail;
 var global_password;
 
 function displayCurrentUser(username) {
-	$("#CurrentLogin").html(username);
+	if(username)
+		$("#CurrentLogin").html("Logged in as: " + username);
+	else
+		$("#CurrentLogin").html("Not logged in");
 }
 
 function updateCloudStorageView() {
@@ -29,5 +32,10 @@ function login(userKeyStore, usernameStore, userEmailStore, userPasswordStore) {
 }
 
 function logout() {
+	global_userKey = null;
+	global_username = null;
+	global_userEmail = null;
+	global_password = null;
 
+	displayCurrentUser();
 }
