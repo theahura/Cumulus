@@ -3,7 +3,7 @@ html {
     overflow-x: hidden;
 }
 body {
-    font-family:'Roboto', sans-serif;
+    font-family:'Raleway', sans-serif;
     background-color: #F4F4F4;
     width: 100%;
 }
@@ -86,6 +86,11 @@ p {
         display: inline-block;
         cursor: pointer;
     }
+
+#CurrentUser{
+    margin-left: 20px;
+    font-size: 18px;
+}
 
 .content {
     padding-top: 75px;

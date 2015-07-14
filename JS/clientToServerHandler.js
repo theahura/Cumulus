@@ -20,6 +20,9 @@ socket.on('serverToClient', function(data)
 
 		userKey = data.userKey;
 		username = data.username;
+
+		$("#CurrentUser").html("Logged in as " + username);
+
 	}
 	else if(data.name === 'loginFailure')
 	{
