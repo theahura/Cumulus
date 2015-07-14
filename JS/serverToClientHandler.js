@@ -15,7 +15,7 @@ socket.on('serverToClient', function(data) {
 		console.log(data.userKey);
 		alert("Logged in! " + data.userKey);
 
-		login(data)
+		login(data.userKey, data.username, data.email, data.password);
 	}
 	else if(data.name === 'loginFailure') {
 		console.log(data.error)

@@ -94,9 +94,9 @@ function loginResponseSuccess(socket, data) {
 	socket.emit('serverToClient', {
 		name: 'loginSuccess',
 		userKey: data.Item.userKey.S, 
-		username: data.Item.username.S
-		password: data.Item.password.S
-		email: data.Item.email.S
+		username: data.Item.username.S,
+		password: data.Item.password.S,
+		email: data.Item.email.S,
 		fullname: data.Item.fullname.S
 	});
 }

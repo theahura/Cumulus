@@ -11,11 +11,11 @@ var global_userEmail;
 var global_password;
 
 function displayCurrentUser(username) {
-
+	$("#CurrentLogin").html(username);
 }
 
 function updateCloudStorageView() {
-	
+
 }
 
 function login(userKeyStore, usernameStore, userEmailStore, userPasswordStore) {
@@ -24,7 +24,7 @@ function login(userKeyStore, usernameStore, userEmailStore, userPasswordStore) {
 	global_userEmail = userEmailStore;
 	global_password = userPasswordStore;
 
-	displayCurrentUser();
+	displayCurrentUser(global_username);
 	updateCloudStorageView(global_username);
 }
 
