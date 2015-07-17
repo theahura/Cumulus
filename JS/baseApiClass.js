@@ -36,25 +36,58 @@ Base API class.
 */
 function baseAPI(socket, userKey) {
 	//Constructor
-	var socket = socket
-	var userKey = userKey
+	var socket = socket;
+	var userKey = userKey;
 
-	var availableAPIs = []
+	var availableAPIs = {};
+
+	function chunkFile(file, APIlist)
+	{
+		//get size and such in here for ordering, for now it just does one to one
+		/*
+			Get size of each api
+			Order a list from largest to smallest
+			Chunk file into sized chunks for each size as needed
+			Store into an obj, return said obj
+		*/
+		returnObj = {};
+		returnObj['gDrive'] = file;
+
+		return returnObj;
+	}
 
 	this.storeDataToDB = function(file) {
-		postObj = {
-			"name": 'store',
-			"userKey": userKey,
+
+		if(availableAPIs.length == 0) {
+			alert("Not logged in to any services");
+			return;
 		}
 
-		//check for api size, determine which api to store to based on file, etc. etc. 
+		postObj = {
+			"name": 'store',
+			"userKey": userKey
+		};
 
-		for(api in availableAPIs) {
-			postObj[api.APIname] = api.storeDataToDB(file)
+		//check for api size, determine which api to store to based on file, etc. etc. 
+		var APIandFileChunk = chunkFile(file, availableAPIs);
+		console.log(APIandFileChunk);
+
+		deferredArray = [];
+
+		for(apiName in APIandFileChunk) {
+			deferred = new $.Deferred();
+			availableAPIs[apiName].storeDataToDB(APIandFileChunk[apiName], function(fileInfo){
+				postObj[apiName] = fileInfo;
+				deferred.resolve();
+			});
+			deferredArray.push(deferred);
 		}
 
 		//store information about file to dynamo through a server
-		socket.emit("clientToServer", postObj);
+		$.when.apply($, deferredArray).then(function() { 
+			alert();
+			socket.emit("clientToServer", postObj);
+		});
 	}
 
 	this.retrieveDataFromDB = function(fileNameAndPath) {
@@ -66,14 +99,13 @@ function baseAPI(socket, userKey) {
 	}
 
 	this.loginToAPI = function(api) {
-		availableAPIs.push(api);
+		availableAPIs[api.APIname] = api;
 		console.log(availableAPIs);
 		alert("API ADDED");
 	}
 
 	this.logoutFromAPI = function(api) {
-		var index = availableAPIs.indexOf(api)
-		availableAPIs.splice(index, 1)
+		delete availableAPIs[api.APIname]
 	}
 
 }

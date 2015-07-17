@@ -40,6 +40,11 @@ function serverError(socket, message) {
 	});
 }
 
+function storeDataToDb(socket, incomingObj)
+{
+	console.log(incomingObj);
+}
+
 /**
 	Generally handles all client requests from a socket. Takes incoming requests, parses by name, and runs necessary checks
 	on function inputs before sending data to the requested function. 

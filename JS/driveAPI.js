@@ -11,14 +11,15 @@ Google Drive API class
 */
 function GoogleAPI(parent) {
     //Constructor
-    this.APIname = "gDrive"
+    this.APIname = "gDrive";
 
-    var parent = parent
+    var parent = parent;
+    var selfVar = this;
 
     var CLIENT_ID = '871670712835-a5a2j5uaein2copvj19vqia8girjk8jl.apps.googleusercontent.com';
     var SCOPES = 'https://www.googleapis.com/auth/drive';
 
-    this.storeDataToDB = function(fileData) {
+    this.storeDataToDB = function(fileData, callback) {
         const boundary = '-------314159265358979323846';
         const delimiter = "\r\n--" + boundary + "\r\n";
         const close_delim = "\r\n--" + boundary + "--";
@@ -55,12 +56,12 @@ function GoogleAPI(parent) {
 
             //GET THE FILE ID AND STORE TO DYNAMO THROUGH THE PARENT
             request.execute(function (file) {
-                return file.id;
+                callback(file.id);
             });
         }
     }
 
-    this.retrieveDataFromDB = function(fileId) {
+    this.retrieveDataFromDB = function(fileId, callback) {
         var request = gapi.client.drive.files.get({
             'fileId': fileId
         });
@@ -73,7 +74,7 @@ function GoogleAPI(parent) {
         });
     }
 
-    this.deleteDataFromDB = function(fileNameAndPath, userKey) {
+    this.deleteDataFromDB = function(fileNameAndPath, callback) {
         var request = gapi.client.drive.files.delete({
             'fileId': fileId
         });
@@ -97,7 +98,7 @@ function GoogleAPI(parent) {
                request.execute(function(resp) {
                     alert("Logged in to Google Drive as: " + resp.name);
                     
-                    parent.loginToAPI(this);
+                    parent.loginToAPI(selfVar);
 
                     return true;
                });
