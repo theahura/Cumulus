@@ -40,9 +40,32 @@ function serverError(socket, message) {
 	});
 }
 
-function storeDataToDb(socket, incomingObj)
-{
-	console.log(incomingObj);
+function storeDataToDb(socket, table, incomingObj, callback) {
+
+	dataObj = {};
+	dataObj['userKey'] = {'S' : incomingObj['userKey']};
+	dataObj['pathAndFileName'] = {'S' : incomingObj['pathAndFileName']};
+	dataObj['APIlist'] = {'M':{}}
+
+	for(key in incomingObj) {
+		if(key === 'name' || key === 'userKey' || key === 'pathAndFileName')
+			continue;
+
+		dataObj['APIlist']['M'][key] = {'S':incomingObj[key]};
+	}
+
+	var itemParams = {Item: dataObj};
+	
+	console.log(itemParams);
+	
+	table.putItem(itemParams, function(err, data) {
+		if(err) {
+			console.log(err);
+		}
+		else {
+			console.log(data);
+		}
+	});
 }
 
 /**
@@ -54,7 +77,7 @@ function storeDataToDb(socket, incomingObj)
 */
 function serverHandler(socket, incomingObj) {
 	if(incomingObj.name === 'store') {
-		storeDataToDb(socket, incomingObj);
+		storeDataToDb(socket, fileTable, incomingObj);
 	}
 	else if(incomingObj.name === 'login') {
 		if(!isSanitized(incomingObj.username)) {

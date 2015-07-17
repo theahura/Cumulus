@@ -34,12 +34,12 @@ Base API class.
 
 @param: library; dynamodb collection to store file info
 */
-function baseAPI(socket, userKey) {
+function baseAPI(socket) {
 	//Constructor
 	var socket = socket;
-	var userKey = userKey;
-
 	var availableAPIs = {};
+
+	this.userKey = null;
 
 	function chunkFile(file, APIlist)
 	{
@@ -57,7 +57,7 @@ function baseAPI(socket, userKey) {
 	}
 
 	this.storeDataToDB = function(file) {
-
+		console.log(file)
 		if(availableAPIs.length == 0) {
 			alert("Not logged in to any services");
 			return;
@@ -65,7 +65,8 @@ function baseAPI(socket, userKey) {
 
 		postObj = {
 			"name": 'store',
-			"userKey": userKey
+			"userKey": this.userKey,
+			"pathAndFileName": file.name
 		};
 
 		//check for api size, determine which api to store to based on file, etc. etc. 
@@ -85,7 +86,6 @@ function baseAPI(socket, userKey) {
 
 		//store information about file to dynamo through a server
 		$.when.apply($, deferredArray).then(function() { 
-			alert();
 			socket.emit("clientToServer", postObj);
 		});
 	}
@@ -106,6 +106,10 @@ function baseAPI(socket, userKey) {
 
 	this.logoutFromAPI = function(api) {
 		delete availableAPIs[api.APIname]
+	}
+
+	this.setUserKey = function(userKey) {
+		this.userKey = userKey;
 	}
 
 }

@@ -107,7 +107,11 @@ function loginResponseSuccess(socket, data) {
 function newUserResponseSuccess(socket, data) {
 	socket.emit('serverToClient', {
 		name: 'newUserSuccess',
-		userKey: data
+		userKey: data.Item.username.S,
+		username: data.Item.username.S,
+		password: data.Item.password.S,
+		email: data.Item.email.S,
+		fullname: data.Item.fullname.S
 	});
 }
 
@@ -192,7 +196,7 @@ module.exports = {
 				else {
 					if(!callback)
 						callback = newUserResponseSuccess;
-					callback(socket, userKey);
+					callback(socket, dataObj);
 				}
 		    });
 		});

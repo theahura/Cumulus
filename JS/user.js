@@ -22,7 +22,7 @@ function updateCloudStorageView() {
 }
 
 function login(userKeyStore, usernameStore, userEmailStore, userPasswordStore) {
-	global_userKey = userKeyStore;
+	global_baseAPI.setUserKey(userKeyStore);
 	global_username = usernameStore;
 	global_userEmail = userEmailStore;
 	global_password = userPasswordStore;
@@ -32,7 +32,7 @@ function login(userKeyStore, usernameStore, userEmailStore, userPasswordStore) {
 }
 
 function logout() {
-	global_userKey = null;
+	global_baseAPI.setUserKey(null);
 	global_username = null;
 	global_userEmail = null;
 	global_password = null;
