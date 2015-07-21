@@ -142,7 +142,7 @@ function baseAPI(socket) {
 			userKey: this.userKey
 		}, function(data) {
 
-			fileObject = [];
+			fileArray = [];
 
 			deferredArray = [];
 
@@ -161,7 +161,7 @@ function baseAPI(socket) {
 				}
 
 				availableAPIs[apiName].retrieveDataFromDB(fileData, function(filePart){
-					fileObject[apiIndex] = filePart;
+					fileArray[apiIndex] = filePart;
 					deferred.resolve();
 				});
 
@@ -171,15 +171,13 @@ function baseAPI(socket) {
 			//store information about file to dynamo through a server
 			$.when.apply($, deferredArray).then(function() {
 
-				var file = '';
+				var fileBlob = new Blob(fileArray);
 
-				for(var i = 0; i < fileObject.length; i++) { 
-					file = file + fileObject[i];
-				}
+				console.log(fileBlob);
 
-				console.log(file);
+				var url = window.URL.createObjectURL(fileBlob);
 
-				$("#downloadLink").attr("href",'data:image/jpeg;' + file).attr("download", pathAndFileName);
+				$("#downloadLink").attr("href", url).attr("download", pathAndFileName);
 			});
 
 		});

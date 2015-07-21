@@ -67,10 +67,13 @@ function GoogleAPI(parent) {
 
         var xhr = new XMLHttpRequest();
         xhr.open('GET', fileURL);
+        xhr.responseType='blob'
         xhr.setRequestHeader('Authorization', 'Bearer ' + accessToken);
 
         xhr.onload = function() {
-            callback(xhr.responseText);
+            var blob = new Blob([this.response]);
+
+            callback(blob);
         };
         xhr.onerror = function() {
             callback(null);
