@@ -23,11 +23,15 @@
 		    		</div>
 				</li>
 				<li class="header-container-center">
-					<div id="CurrentLogin">Not logged in</div>
+					<div id="CurrentLogin" style="color: white">Not logged in</div>
 				</li>
 				<li class="header-container-right">
-				    <div id="UsernameField" class="inputfield" contenteditable="true">Username</div>
-				    <div id="PasswordField" class="inputfield" contenteditable="true">Password</div>
+				    <!-- <div id="UsernameField" class="inputfield" contenteditable="true">Username</div>
+				    <div id="PasswordField" class="inputfield" contenteditable="true">Password</div> -->
+				    <form id="TitlebarForm">
+                        <input type="text" name="username" id="UsernameField" placeholder="Name"/>
+                        <input type="password" name="password" id="PasswordField" placeholder="Password"/>
+                    </form>
 					<div id="Cancel" class="button">Cancel</div>
 				    <div id="SubmitLogin" class="button">Submit</div>
 				    <div id="NewUserButton" class="button">Create Account</div>
