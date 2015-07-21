@@ -10,21 +10,25 @@ global_baseAPI = new baseAPI(socket);
 global_googleAPI = new GoogleAPI(global_baseAPI);
 
 //Event triggers
-//old version that worked with divs
- /*$("#SubmitLogin").click(function () {
-    var username = $("#UsernameField").html()
-    var password = $("#PasswordField").html();
 
-    socket.emit("clientToServer", {
-        name: "login",
-        username: username,
-        password: password
-    });
-}); */
+$("#SubmitLogin").click(function () {
+    $("#TitlebarForm").submit(function(event) {
+		event.preventDefault();
 
-//new version that works with forms
-$("SubmitLogin").click(function () {
-    ("TitlebarForm").submit();
+	    var $inputs = $('#TitlebarForm :input');
+		var values = {};
+	    $inputs.each(function() {
+	        values[this.name] = $(this).val();
+	    });
+	    console.log(values);
+		socket.emit("clientToServer", {
+	        name: "login",
+	        username: values.username,
+			password: values.password
+		});
+	});
+
+	$("#TitlebarForm").submit();
 });
 
 $("#LogoutButton").click(function() {   
