@@ -48,6 +48,11 @@ $("#DriveLoginButton").click(function(){
 });
 
 
+$("#RetrieveButton").click(function(){
+	fileNameAndPath = prompt("Filename?");
+	global_baseAPI.retrieveDataFromDB(fileNameAndPath);
+});
+
 //Copy pasted from interwobs. Could probably be better.
 function handleFileSelect(evt)
 {

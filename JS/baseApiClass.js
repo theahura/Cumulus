@@ -28,7 +28,6 @@ Base API will have instantiations of all of the other APIs and will be called as
 
 */ 
 
-
 /*
 Base API class. 
 
@@ -56,7 +55,24 @@ function baseAPI(socket) {
 		return returnObj;
 	}
 
+	/**
+		Stores a file to the cloud
+
+		Input file
+
+		Check if file exists in cloud
+			if yes, return
+			if no, 
+				chunk file based on available api sizes
+				get file info necessary to retrieve file from api 
+				store that file info into dynamo
+	*/
 	this.storeDataToDB = function(file) {
+		if(!this.userKey) {
+			alert("Log in first!")
+			return;
+		}
+
 		console.log(file)
 		if(availableAPIs.length == 0) {
 			alert("Not logged in to any services");
@@ -64,47 +80,137 @@ function baseAPI(socket) {
 		}
 
 		postObj = {
-			"name": 'store',
+			"name": 'checkFile',
 			"userKey": this.userKey,
 			"pathAndFileName": file.name
 		};
 
-		//check for api size, determine which api to store to based on file, etc. etc. 
-		var APIandFileChunk = chunkFile(file, availableAPIs);
-		console.log(APIandFileChunk);
+		//Check if file already exists
+		socket.emit("clientToServer", postObj, function(inDB) {
+			
+			if(inDB) {
+				alert("File name taken");
+				return;
+			}
 
-		deferredArray = [];
+			//if the file does not already exist...
+			postObj['name'] = 'store';
 
-		for(apiName in APIandFileChunk) {
-			deferred = new $.Deferred();
-			availableAPIs[apiName].storeDataToDB(APIandFileChunk[apiName], function(fileInfo){
-				postObj[apiName] = fileInfo;
-				deferred.resolve();
+			//check for api size, determine which api to store to based on file, etc. etc. 
+			var APIandFileChunk = chunkFile(file, availableAPIs);
+			console.log(APIandFileChunk);
+
+			deferredArray = [];
+
+			var count = 0;
+
+			for(apiName in APIandFileChunk) {
+				deferred = new $.Deferred();
+				availableAPIs[apiName].storeDataToDB(APIandFileChunk[apiName], function(fileInfo){
+					postObj[count + "_" + apiName] = fileInfo;
+					count++;
+					deferred.resolve();
+				});
+				deferredArray.push(deferred);
+			}
+
+			//store information about file to dynamo through a server
+			$.when.apply($, deferredArray).then(function() { 
+				socket.emit("clientToServer", postObj);
 			});
-			deferredArray.push(deferred);
-		}
-
-		//store information about file to dynamo through a server
-		$.when.apply($, deferredArray).then(function() { 
-			socket.emit("clientToServer", postObj);
 		});
 	}
 
-	this.retrieveDataFromDB = function(fileNameAndPath) {
-		//grab dynamo info from server, send it to the appropriate apis
+	/**
+		Input a file name/path
+		Check dynamo if the file exists
+			if not, return
+			if yes, 
+				for each api in the returned APIList object, call retrieve
+				piece together file
+				return file
+	*/
+	this.retrieveDataFromDB = function(pathAndFileName) {
+		if(!this.userKey) {
+			alert("Log in first!")
+			return;
+		}
+
+		socket.emit("clientToServer", {
+			name:"retrieve", 
+			pathAndFileName: pathAndFileName, 
+			userKey: this.userKey
+		}, function(data) {
+
+			fileObject = [];
+
+			deferredArray = [];
+
+			for(apiNameAndNum in data) {
+				deferred = new $.Deferred();
+
+				apiInfo = apiNameAndNum.split('_');
+
+				apiIndex = apiInfo[0];
+				apiName = apiInfo[1];
+				fileData = data[apiNameAndNum];
+
+				if(!availableAPIs[apiName]) {
+					alert("Log in to " + apiName + " first!");
+					return;
+				}
+
+				availableAPIs[apiName].retrieveDataFromDB(fileData, function(filePart){
+					fileObject[apiIndex] = filePart;
+					deferred.resolve();
+				});
+
+				deferredArray.push(deferred);
+			}
+
+			//store information about file to dynamo through a server
+			$.when.apply($, deferredArray).then(function() {
+
+				var file = '';
+
+				for(var i = 0; i < fileObject.length; i++) { 
+					file = file + fileObject[i];
+				}
+
+				console.log(file);
+
+				$("#downloadLink").attr("href",'data:image/jpeg;' + file).attr("download", pathAndFileName);
+			});
+
+		});
 	}
 
-	this.deleteDataFromDB = function(fileNameAndPath) {
+	this.deleteDataFromDB = function(pathAndFileName) {
+		if(!this.userKey) {
+			alert("Log in first!")
+			return;
+		}
+
 		//grab dynamo info from server, send it to the appropriate apis
 	}
 
 	this.loginToAPI = function(api) {
+		if(!this.userKey) {
+			alert("Log in first!")
+			return;
+		}
+
 		availableAPIs[api.APIname] = api;
 		console.log(availableAPIs);
 		alert("API ADDED");
 	}
 
 	this.logoutFromAPI = function(api) {
+		if(!this.userKey) {
+			alert("Log in first!")
+			return;
+		}
+
 		delete availableAPIs[api.APIname]
 	}
 

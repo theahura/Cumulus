@@ -29,6 +29,10 @@ socket.on('serverToClient', function(data) {
 		console.log(data.error)
 		alert(data.error)
 	}
+	else if(data.name === 'checkFileFailure') {
+		console.log(data.error)
+		alert(data.error)
+	}
 	else {
 		alert("no name found");
 	}

@@ -62,16 +62,20 @@ function GoogleAPI(parent) {
     }
 
     this.retrieveDataFromDB = function(fileId, callback) {
-        var request = gapi.client.drive.files.get({
-            'fileId': fileId
-        });
+        var fileURL = 'https://www.googleapis.com/drive/v2/files/' + fileId + '?alt=media';
+        var accessToken = gapi.auth.getToken().access_token;
 
-        request.execute(function(resp) {
-            console.log('Title: ' + resp.title);
-            console.log('Description: ' + resp.description);
-            console.log('MIME type: ' + resp.mimeType);
-            document.location = result[i].webContentLink
-        });
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', fileURL);
+        xhr.setRequestHeader('Authorization', 'Bearer ' + accessToken);
+
+        xhr.onload = function() {
+            callback(xhr.responseText);
+        };
+        xhr.onerror = function() {
+            callback(null);
+        };
+        xhr.send();
     }
 
     this.deleteDataFromDB = function(fileNameAndPath, callback) {

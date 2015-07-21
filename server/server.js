@@ -4,7 +4,8 @@
 
 
 var AWS = require('aws-sdk');
-var loginTools = require('./loginTools')
+var loginTools = require('./loginTools');
+var storageTools = require('./storageTools');
 
 //AWS config
 AWS.config.region = 'us-east-1';
@@ -40,34 +41,6 @@ function serverError(socket, message) {
 	});
 }
 
-function storeDataToDb(socket, table, incomingObj, callback) {
-
-	dataObj = {};
-	dataObj['userKey'] = {'S' : incomingObj['userKey']};
-	dataObj['pathAndFileName'] = {'S' : incomingObj['pathAndFileName']};
-	dataObj['APIlist'] = {'M':{}}
-
-	for(key in incomingObj) {
-		if(key === 'name' || key === 'userKey' || key === 'pathAndFileName')
-			continue;
-
-		dataObj['APIlist']['M'][key] = {'S':incomingObj[key]};
-	}
-
-	var itemParams = {Item: dataObj};
-	
-	console.log(itemParams);
-	
-	table.putItem(itemParams, function(err, data) {
-		if(err) {
-			console.log(err);
-		}
-		else {
-			console.log(data);
-		}
-	});
-}
-
 /**
 	Generally handles all client requests from a socket. Takes incoming requests, parses by name, and runs necessary checks
 	on function inputs before sending data to the requested function. 
@@ -75,11 +48,18 @@ function storeDataToDb(socket, table, incomingObj, callback) {
 	@param: socket; socket.io connection; the connection to the client sending data
 	@param: incomingObj; obj; data sent from client
 */
-function serverHandler(socket, incomingObj) {
-	if(incomingObj.name === 'store') {
-		storeDataToDb(socket, fileTable, incomingObj);
+function serverHandler(socket, incomingObj, callback) {
+	if(incomingObj.name === 'store') {	
+		storageTools.storeDataToDb(socket, fileTable, incomingObj);
+	}
+	else if(incomingObj.name === 'checkFile') {
+		storageTools.checkFile(socket, fileTable, incomingObj, callback);
+	}
+	else if(incomingObj.name === "retrieve") {
+		storageTools.retrieveFile(socket, fileTable, incomingObj, callback);
 	}
 	else if(incomingObj.name === 'login') {
+
 		if(!isSanitized(incomingObj.username)) {
 			serverError(socket, "No or invalid username");
 			return;
@@ -93,6 +73,7 @@ function serverHandler(socket, incomingObj) {
 		loginTools.loginUser(socket, userTable, incomingObj);
 	}
 	else if(incomingObj.name === 'newUser') {
+
 		if(!isSanitized(incomingObj.username)) {
 			serverError(socket, "No or invalid username");
 			return;
@@ -125,11 +106,11 @@ function serverHandler(socket, incomingObj) {
 //Main
 io.sockets.on('connection', function(socket) {
 	console.log("CONNECTED")
-	socket.on('clientToServer', function(data) {
+	socket.on('clientToServer', function(data, callback) {
 		if(!(data && data.name))
 			serverError(socket, 'Data did not have a name');
 
-		serverHandler(socket, data);
+		serverHandler(socket, data, callback);
 	});
 
 });
