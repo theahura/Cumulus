@@ -68,6 +68,13 @@ $("#DeleteButton").click(function() {
 	global_baseAPI.deleteDataFromDB(fileNameAndPath);
 });
 
+$("#SubmitLogin").keypress(function(event) {
+    if (event.which == 13) {
+        event.preventDefault();
+        $("form").submit();
+    }
+});
+
 //Copy pasted from interwobs. Could probably be better.
 function handleFileSelect(evt)
 {
