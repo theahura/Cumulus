@@ -12,6 +12,7 @@ global_googleAPI = new GoogleAPI(global_baseAPI);
 //Event triggers
 
 $("#SubmitLogin").click(function () {
+
     $("#TitlebarForm").submit(function(event) {
 		event.preventDefault();
 
@@ -53,7 +54,7 @@ $("#RegisterNewUser").submit(function(event) {
 	});
 });
 
-$("#DriveLoginButton").click(function(){
+$(".Google").click(function(){
 	global_googleAPI.loginToAPI();
 });
 
@@ -88,5 +89,8 @@ function handleFileSelect(evt)
     document.getElementById('list').innerHTML = '<ul>' + output.join('') + '</ul>';
 }
 
-document.getElementById('SaveButton').addEventListener('change', handleFileSelect, false);
+document.getElementById('HiddenUploadButton').addEventListener('change', handleFileSelect, false);
 
+$("#UploadButton").click(function() {
+	$("#HiddenUploadButton").click();
+});

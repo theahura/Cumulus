@@ -33,3 +33,14 @@ $('#GetStartedButton').click(function() {
 $('#logo').click(function() {
     location.reload();
 });
+
+
+//-----------------------------
+$("#AddCloud").click(function(){
+    $(".new-cloud-panel").fadeIn();
+});
+
+$(".new-cloud-cover").click(function(){
+    $(".new-cloud-panel").fadeOut();
+});
+

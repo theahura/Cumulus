@@ -1,29 +1,23 @@
-html {
-    width: 100%;
-    overflow-x: hidden;
-
-    -webkit-touch-callout: none;
+ html,body
+{
+    font-family:"Raleway", "sans-serif";
+    font-weight:500;
+    -webkit-font-smoothing:antialiased;
     -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-}
-body {
-    font-family:'Raleway', sans-serif;
-    background-color: #F4F4F4;
+    color:#42A6F3;
+    height: 100%;
     width: 100%;
 }
 
+ul, li
+{
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
 h1 {
     color: white;
     font-size: 22pt;
-}
-
-ul {
-    padding: 0;
-    margin: 0;
-    list-style-type: none;
 }
 
 table {
@@ -61,19 +55,22 @@ p {
 }
 
 .button {
-    padding: 5px;
-    margin: 10px;
-    border-style: solid;
-    border-color: white;
-    border-radius: 2px;
-    color: white;
-    border-width: 1px;
     cursor: pointer;
-    -webkit-transition: color .1s;
-    transition: color .1s;
-    -webkit-transition: background-color .1s;
-    transition: background-color .1s;
 }
+    
+    .button-prelogin {
+        padding: 5px;
+        margin: 10px;
+        border-style: solid;
+        border-color: white;
+        border-radius: 2px;
+        color: white;
+        border-width: 1px;
+        -webkit-transition: color .1s;
+        transition: color .1s;
+        -webkit-transition: background-color .1s;
+        transition: background-color .1s;
+    }
 
 .button:hover {
     background-color: white;
@@ -149,7 +146,7 @@ p {
 
             }
 
-.content {
+.prelogin-content {
     padding-top: 75px;
     width: 50%;
     min-width: 500px;
