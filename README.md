@@ -8,12 +8,11 @@ ________________________________________________________________________________
 
 Current updates needed: 
 
-	- make sure file id storage works as expected
-	- update frontend cloud storage aspect
-	- update frontend user login to forms
-	- start building front end runner that interacts with the backend 
+	- start building front end runner that interacts with the backend
+	- Update frontend backend link to include callbacks instead of stupid wait-for-call events
 
 Recent updates: 
+	7-22-15: Google drive integration successful
 	7-12-15: User reg has all bells and whistles and is attached to front end
 	7-5-15: Got user reg more or less working
 	Late July: Tested baseAPI and Google Drive API on client w/ backend,all worked together

@@ -94,11 +94,6 @@ function serverHandler(socket, incomingObj, callback) {
 			return;
 		}
 
-		if(!isSanitized(incomingObj.fullname)) {
-			serverError(socket, "No or invalid fullname");
-			return;
-		}
-
 		loginTools.regNewUser(socket, userTable, incomingObj);
 	}
 	else {

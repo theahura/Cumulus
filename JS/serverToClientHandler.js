@@ -24,6 +24,8 @@ socket.on('serverToClient', function(data) {
 	else if(data.name === 'newUserSuccess') {
 		console.log(data.userKey);
 		alert('New User Success! ' + data.userKey);
+
+		login(data.userKey, data.username, data.email, data.password);
 	}
 	else if(data.name === 'newUserFailure') {
 		console.log(data.error)

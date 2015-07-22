@@ -17,10 +17,6 @@ function displayCurrentUser(username) {
 		$("#CurrentLogin").html("Not logged in");
 }
 
-function updateCloudStorageView() {
-
-}
-
 function login(userKeyStore, usernameStore, userEmailStore, userPasswordStore) {
 	global_baseAPI.setUserKey(userKeyStore);
 	global_username = usernameStore;
@@ -28,7 +24,10 @@ function login(userKeyStore, usernameStore, userEmailStore, userPasswordStore) {
 	global_password = userPasswordStore;
 
 	displayCurrentUser(global_username);
-	updateCloudStorageView(global_username);
+	alert()
+	$(".prelogin-content").fadeOut();
+	$(".postlogin-content").fadeIn();
+	alert("?")
 }
 
 function logout() {
