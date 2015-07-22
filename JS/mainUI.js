@@ -1,7 +1,3 @@
-$("#UsernameField, #PasswordField").click(function clearBox(itemID) {
-    document.getElementById(itemID).innerHTML = "";
-});
-
 $("#LoginButton").click(function showInputLogin() {
     document.getElementById("NewUserButton").style.display = "none";
     document.getElementById("LoginButton").style.display = "none";

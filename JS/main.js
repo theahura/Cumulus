@@ -63,6 +63,11 @@ $("#RetrieveButton").click(function(){
 	global_baseAPI.retrieveDataFromDB(fileNameAndPath);
 });
 
+$("#DeleteButton").click(function() {
+	fileNameAndPath = prompt("Filename?");
+	global_baseAPI.deleteDataFromDB(fileNameAndPath);
+});
+
 //Copy pasted from interwobs. Could probably be better.
 function handleFileSelect(evt)
 {
@@ -84,3 +89,4 @@ function handleFileSelect(evt)
 }
 
 document.getElementById('SaveButton').addEventListener('change', handleFileSelect, false);
+

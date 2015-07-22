@@ -81,12 +81,14 @@ function GoogleAPI(parent) {
         xhr.send();
     }
 
-    this.deleteDataFromDB = function(fileNameAndPath, callback) {
+    this.deleteDataFromDB = function(fileId, callback) {
         var request = gapi.client.drive.files.delete({
             'fileId': fileId
         });
 
-        request.execute(function(resp) { });
+        request.execute(function(resp) {
+            callback();
+        });
     }
 
     this.loginToAPI = function() {

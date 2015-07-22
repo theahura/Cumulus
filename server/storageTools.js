@@ -108,7 +108,22 @@ module.exports = {
 				callback(APIlist);
 			}
 			else {
-				callback(null)
+				callback(null);
+			}
+		});
+	},
+
+	deleteFile: function(socket, table, incomingObj, callback) {
+		console.log(incomingObj['pathAndFileName'])
+		console.log(incomingObj['userKey'])
+		console.log(incomingObj)
+
+		table.deleteItem({Key: {'pathAndFileName':{'S':incomingObj['pathAndFileName']}, 'userKey':{'S':incomingObj['userKey']}}}, function(err)  {
+			if(err) {
+				checkFileFailure(socket, err);
+			}
+			else {
+				callback();
 			}
 		});
 	}

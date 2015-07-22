@@ -38,7 +38,7 @@ function baseAPI(socket) {
 	var socket = socket;
 	var availableAPIs = {};
 
-	this.userKey = null;
+	var userKey = null;
 
 	function chunkFile(file, APIlist)
 	{
@@ -68,20 +68,16 @@ function baseAPI(socket) {
 				store that file info into dynamo
 	*/
 	this.storeDataToDB = function(file) {
-		if(!this.userKey) {
+		if(!userKey) {
 			alert("Log in first!")
 			return;
 		}
 
 		console.log(file)
-		if(availableAPIs.length == 0) {
-			alert("Not logged in to any services");
-			return;
-		}
 
 		postObj = {
 			"name": 'checkFile',
-			"userKey": this.userKey,
+			"userKey": userKey,
 			"pathAndFileName": file.name
 		};
 
@@ -131,7 +127,7 @@ function baseAPI(socket) {
 				return file
 	*/
 	this.retrieveDataFromDB = function(pathAndFileName) {
-		if(!this.userKey) {
+		if(!userKey) {
 			alert("Log in first!")
 			return;
 		}
@@ -139,7 +135,7 @@ function baseAPI(socket) {
 		socket.emit("clientToServer", {
 			name:"retrieve", 
 			pathAndFileName: pathAndFileName, 
-			userKey: this.userKey
+			userKey: userKey
 		}, function(data) {
 
 			fileArray = [];
@@ -184,16 +180,65 @@ function baseAPI(socket) {
 	}
 
 	this.deleteDataFromDB = function(pathAndFileName) {
-		if(!this.userKey) {
+		if(!userKey) {
 			alert("Log in first!")
 			return;
 		}
 
+		socket.emit("clientToServer", {
+			name:"retrieve", 
+			pathAndFileName: pathAndFileName, 
+			userKey: userKey
+		}, function(data) {
+
+			console.log(data);
+
+			deferredArray = [];
+
+			for(apiNameAndNum in data) {
+				deferred = new $.Deferred();
+
+				apiInfo = apiNameAndNum.split('_');
+
+				apiIndex = apiInfo[0];
+				apiName = apiInfo[1];
+				fileData = data[apiNameAndNum];
+
+				if(!availableAPIs[apiName]) {
+					alert("Log in to " + apiName + " first!");
+					return;
+				}
+				
+				console.log("HELLO");
+				console.log(fileData);
+
+				availableAPIs[apiName].deleteDataFromDB(fileData, function(){
+					console.log('HELLO')
+					deferred.resolve();
+				});
+
+				deferredArray.push(deferred);
+			}
+
+			//store information about file to dynamo through a server
+			$.when.apply($, deferredArray).then(function() {
+
+				socket.emit("clientToServer", {
+					name:"delete", 
+					pathAndFileName: pathAndFileName, 
+					userKey: userKey
+				}, function() {
+					alert("File deleted");
+				});
+
+			});
+
+		});
 		//grab dynamo info from server, send it to the appropriate apis
 	}
 
 	this.loginToAPI = function(api) {
-		if(!this.userKey) {
+		if(!userKey) {
 			alert("Log in first!")
 			return;
 		}
@@ -204,7 +249,7 @@ function baseAPI(socket) {
 	}
 
 	this.logoutFromAPI = function(api) {
-		if(!this.userKey) {
+		if(!userKey) {
 			alert("Log in first!")
 			return;
 		}
@@ -212,8 +257,8 @@ function baseAPI(socket) {
 		delete availableAPIs[api.APIname]
 	}
 
-	this.setUserKey = function(userKey) {
-		this.userKey = userKey;
+	this.setUserKey = function(inputUserKey) {
+		userKey = inputUserKey;
 	}
 
 }

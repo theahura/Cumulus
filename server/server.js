@@ -58,6 +58,10 @@ function serverHandler(socket, incomingObj, callback) {
 	else if(incomingObj.name === "retrieve") {
 		storageTools.retrieveFile(socket, fileTable, incomingObj, callback);
 	}
+	else if(incomingObj.name === "delete") {
+		console.log(incomingObj)
+		storageTools.deleteFile(socket, fileTable, incomingObj, callback);
+	}
 	else if(incomingObj.name === 'login') {
 
 		if(!isSanitized(incomingObj.username)) {
