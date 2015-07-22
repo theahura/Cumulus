@@ -13,7 +13,6 @@ socket.on('serverToClient', function(data) {
 	}
 	else if(data.name === 'loginSuccess') {
 		console.log(data.userKey);
-		alert("Logged in! " + data.userKey);
 
 		login(data.userKey, data.username, data.email, data.password);
 	}
@@ -23,7 +22,6 @@ socket.on('serverToClient', function(data) {
 	}
 	else if(data.name === 'newUserSuccess') {
 		console.log(data.userKey);
-		alert('New User Success! ' + data.userKey);
 
 		login(data.userKey, data.username, data.email, data.password);
 	}
