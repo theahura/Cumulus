@@ -26,6 +26,13 @@ $("#SubmitLogin").click(function () {
 	        name: "login",
 	        username: values.username,
 			password: values.password
+		}, function(data, err, isAppError) {
+			if(err) {
+				errorHandler(err, isAppError);
+			} 
+			else {
+				login(data);
+			}
 		});
 	});
 
@@ -51,6 +58,13 @@ $("#RegisterNewUser").submit(function(event) {
 		password: values.password,
 		email: values.email, 
 		fullname: values.firstname + " " + values.lastname
+	}, function(data, err, appError) {
+		if(err) {
+			errorHandler(err, appError);
+		}		
+		else {
+			login(data);
+		}
 	});
 });
 

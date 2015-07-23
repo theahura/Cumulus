@@ -8,7 +8,11 @@ User profile functions
 
 var global_username;
 var global_userEmail;
-var global_password;
+
+function errorHandler(data, isAppError) {
+	console.log(data.message);
+	alert(data.message);
+}
 
 function displayCurrentUser(username) {
 	if(username)
@@ -17,11 +21,16 @@ function displayCurrentUser(username) {
 		$("#CurrentLogin").html("Not logged in");
 }
 
-function login(userKeyStore, usernameStore, userEmailStore, userPasswordStore) {
-	global_baseAPI.setUserKey(userKeyStore);
-	global_username = usernameStore;
-	global_userEmail = userEmailStore;
-	global_password = userPasswordStore;
+/**
+	@param: data
+		@param: username
+		@param:email
+		@param: userKey
+*/
+function login(data) {
+	global_baseAPI.setUserKey(data.userKey.S);
+	global_username = data.username.S;
+	global_userEmail = data.email.S;
 
 	displayCurrentUser(global_username);
 	$(".prelogin-content").fadeOut( function() {	
