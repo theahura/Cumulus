@@ -12,7 +12,7 @@ global_googleAPI = new GoogleAPI(global_baseAPI);
 //Event triggers
 
 $("#SubmitLogin").click(function () {
-
+	alert('bitch2');
     $("#TitlebarForm").submit(function(event) {
 		event.preventDefault();
 
@@ -69,12 +69,10 @@ $("#DeleteButton").click(function() {
 	global_baseAPI.deleteDataFromDB(fileNameAndPath);
 });
 
-$("#SubmitLogin").keypress(function(event) {
-    if (event.which == 13) {
-        event.preventDefault();
-        $("form").submit();
-    }
-});
+$("#HiddenSubmitLogin").submit(function() {
+	alert('bitch');
+	$("#SubmitLogin").trigger("click");
+})
 
 //Copy pasted from interwobs. Could probably be better.
 function handleFileSelect(evt)
