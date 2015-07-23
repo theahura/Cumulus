@@ -102,7 +102,13 @@ module.exports = {
 		@param: callback; function; the function to call if successfull login (default = loginResponseSuccess)
 	*/
 	regNewUser: function(socket, table, incomingObj, callback) {
-		checkUser(socket, table, incomingObj.username, function() {
+		checkUser(socket, table, incomingObj.username, function(err, isAppError) {
+			console.log(err)
+			if(err) { 
+				callback(null, err, isAppError);
+				return;
+			}
+
 			userKey = generateUserKey(incomingObj.username, incomingObj.password);
 
 			dataObj = {};

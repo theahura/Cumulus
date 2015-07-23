@@ -82,7 +82,12 @@ function baseAPI(socket) {
 		};
 
 		//Check if file already exists
-		socket.emit("clientToServer", postObj, function(inDB) {
+		socket.emit("clientToServer", postObj, function(inDB, err) {
+
+			if(err) {
+				errorHandler(err);
+				return;
+			}
 			
 			if(inDB) {
 				alert("File name taken");
@@ -136,7 +141,12 @@ function baseAPI(socket) {
 			name:"retrieve", 
 			pathAndFileName: pathAndFileName, 
 			userKey: userKey
-		}, function(data) {
+		}, function(data, err) {
+
+			if(err) {
+				errorHandler(err);
+				return;
+			}
 
 			fileArray = [];
 
@@ -189,7 +199,12 @@ function baseAPI(socket) {
 			name:"retrieve", 
 			pathAndFileName: pathAndFileName, 
 			userKey: userKey
-		}, function(data) {
+		}, function(data, err) {
+
+			if(err) {
+				errorHandler(err);
+				return;
+			}
 
 			console.log(data);
 

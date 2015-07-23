@@ -10,7 +10,7 @@ var global_username;
 var global_userEmail;
 
 function errorHandler(data, isAppError) {
-	console.log(data.message);
+	console.log(data);
 	alert(data.message);
 }
 
