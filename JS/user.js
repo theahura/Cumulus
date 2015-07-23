@@ -24,10 +24,9 @@ function login(userKeyStore, usernameStore, userEmailStore, userPasswordStore) {
 	global_password = userPasswordStore;
 
 	displayCurrentUser(global_username);
-	alert()
-	$(".prelogin-content").fadeOut();
-	$(".postlogin-content").fadeIn();
-	alert("?")
+	$(".prelogin-content").fadeOut( function() {	
+		$(".postlogin-content").fadeIn();
+	});
 }
 
 function logout() {
