@@ -217,6 +217,6 @@ p {
     display: none;
 }
 
-#HiddenSubmitLogin {
+.HiddenSubmit {
     display: none;
 }
