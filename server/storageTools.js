@@ -10,22 +10,6 @@ File storage module
 var AWS = require('aws-sdk');
 AWS.config.region = 'us-east-1';
 
-/**
-	Emit file check failure
-	
-	@param: socket; socket.io connetion; user to send error message to 
-	@param: data;
-		@param: message; string; message to send
-	@param: extrakey; string; key to tell if app error or not
-*/
-function checkFileFailure(socket, data, extraKey) {
-	console.log(data)
-	socket.emit('serverToClient', {
-		name: 'checkFileFailure',
-		error: data.message,
-		extraKey: extraKey
-	});
-}
 
 //Exposed functions
 module.exports = {
@@ -43,7 +27,7 @@ module.exports = {
 	checkFile: function(socket, table, incomingObj, callback) {
 		table.getItem({Key: {'pathAndFileName':{'S':incomingObj['pathAndFileName']}, 'userKey':{'S':incomingObj['userKey']}}}, function(err, data)  {
 			if(err) {
-				checkFileFailure(socket, err);
+				callback(null, err);
 			}
 			else if(data.Item) {
 				callback(true);
@@ -64,7 +48,6 @@ module.exports = {
 			@param: userKey; string; the indentifier for the user
 	*/
 	storeDataToDb: function(socket, table, incomingObj) {
-
 		dataObj = {};
 		dataObj['userKey'] = {'S' : incomingObj['userKey']};
 		dataObj['pathAndFileName'] = {'S' : incomingObj['pathAndFileName']};
@@ -95,7 +78,7 @@ module.exports = {
 	retrieveFile: function(socket, table, incomingObj, callback) {
 		table.getItem({Key: {'pathAndFileName':{'S':incomingObj['pathAndFileName']}, 'userKey':{'S':incomingObj['userKey']}}}, function(err, data)  {
 			if(err) {
-				checkFileFailure(socket, err);
+				callback(null, err);
 			}
 			else if(data.Item.APIlist.M) {
 				dynamoAPIlist = data.Item.APIlist.M;
@@ -120,7 +103,7 @@ module.exports = {
 
 		table.deleteItem({Key: {'pathAndFileName':{'S':incomingObj['pathAndFileName']}, 'userKey':{'S':incomingObj['userKey']}}}, function(err)  {
 			if(err) {
-				checkFileFailure(socket, err);
+				callback(null, err);
 			}
 			else {
 				callback();

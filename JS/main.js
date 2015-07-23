@@ -54,6 +54,13 @@ $("#RegisterNewUser").submit(function(event) {
 		password: values.password,
 		email: values.email, 
 		fullname: values.firstname + " " + values.lastname
+	}, function(data, err, appError) {
+		if(err) {
+			errorHandler(err, appError);
+		}		
+		else {
+			login(data);
+		}
 	});
 });
 

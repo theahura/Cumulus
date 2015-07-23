@@ -74,7 +74,7 @@ function serverHandler(socket, incomingObj, callback) {
 			return;
 		}
 
-		loginTools.loginUser(socket, userTable, incomingObj);
+		loginTools.loginUser(socket, userTable, incomingObj, callback);
 	}
 	else if(incomingObj.name === 'newUser') {
 
@@ -94,7 +94,7 @@ function serverHandler(socket, incomingObj, callback) {
 			return;
 		}
 
-		loginTools.regNewUser(socket, userTable, incomingObj);
+		loginTools.regNewUser(socket, userTable, incomingObj, callback);
 	}
 	else {
 		serverError(socket, 'No Name match');
