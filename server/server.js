@@ -9,8 +9,8 @@ var storageTools = require('./storageTools');
 
 //AWS config
 AWS.config.region = 'us-east-1';
-var userTable = new AWS.DynamoDB({params: {TableName: 'Users'}});
-var fileTable = new AWS.DynamoDB({params: {TableName: 'Files'}});
+var userTable = new AWS.DynamoDB({params: {TableName: 'CumulusUsers'}});
+var fileTable = new AWS.DynamoDB({params: {TableName: 'CumulusFiles'}});
 
 //Sockets
 var io = require('socket.io').listen(5000);
