@@ -11,33 +11,29 @@ global_googleAPI = new GoogleAPI(global_baseAPI);
 
 //Event triggers
 
-$("#SubmitLogin").click(function () {
-	alert('bitch2');
-    $("#TitlebarForm").submit(function(event) {
-		event.preventDefault();
+$("#TitlebarForm").submit(function(event) {
+	event.preventDefault();
 
-	    var $inputs = $('#TitlebarForm :input');
-		var values = {};
-	    $inputs.each(function() {
-	        values[this.name] = $(this).val();
-	    });
-	    console.log(values);
-		socket.emit("clientToServer", {
-	        name: "login",
-	        username: values.username,
-			password: values.password
-		}, function(data, err, isAppError) {
-			if(err) {
-				errorHandler(err, isAppError);
-			} 
-			else {
-				login(data);
-			}
-		});
+    var $inputs = $('#TitlebarForm :input');
+	var values = {};
+    $inputs.each(function() {
+        values[this.name] = $(this).val();
+    });
+    console.log(values);
+	socket.emit("clientToServer", {
+        name: "login",
+        username: values.username,
+		password: values.password
 	});
+});
 
+$("#SubmitLogin").click(function () {
 	$("#TitlebarForm").submit();
 });
+
+$("#NewSubmit").click(function () {
+	$("#RegisterNewUser").submit();
+})
 
 $("#LogoutButton").click(function() {   
 	alert("Not logged in");
@@ -82,11 +78,6 @@ $("#DeleteButton").click(function() {
 	fileNameAndPath = prompt("Filename?");
 	global_baseAPI.deleteDataFromDB(fileNameAndPath);
 });
-
-$("#HiddenSubmitLogin").submit(function() {
-	alert('bitch');
-	$("#SubmitLogin").trigger("click");
-})
 
 //Copy pasted from interwobs. Could probably be better.
 function handleFileSelect(evt)
