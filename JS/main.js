@@ -24,6 +24,13 @@ $("#TitlebarForm").submit(function(event) {
         name: "login",
         username: values.username,
 		password: values.password
+	}, function(data, err, appError) {
+		if(err) {
+			errorHandler(err, appError);
+		}		
+		else {
+			login(data);
+		}
 	});
 });
 
