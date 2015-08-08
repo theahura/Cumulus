@@ -59,21 +59,21 @@ module.exports = {
 		@param: callback; function; the function to call if successfull login 
 	*/
 	loginUser: function(socket, table, incomingObj, callback) {
-
 		// Read the item from the table
 	  	table.getItem({Key: {'username':{'S':incomingObj.username}}}, function(err, data) {
 	  		if(err) {
 				callback(null, err);
 			}	  		
 			else {
-
 	  			if(Object.keys(data).length === 0) {
-	  				callback(null, {message: 'Username already taken'}, 'appError');
+	  				console.log(40);
+	  				callback(null, {message: 'Username/Password incorrect'}, 'appError');
+	  				console.log(41);
 	  				return;
 	  			}
-
+	  			console.log(43);
 	  			if(data.Item.password.S === incomingObj.password) {
-
+	  				console.log(33);
 	  				dataObj = {};
 
 					for(key in data.Item) {
@@ -81,12 +81,13 @@ module.exports = {
 						dataObj[key] = {'S':data.Item[key].S}
 					}
 
-		    		callback(dataObj); 	  	
+		    		callback(dataObj);
 		    	}
 		    	else {
-					callback(null, {message: 'Username already taken'}, 'appError');
+		    		console.log(34);
+					callback(null, {message: 'Username/Password incorrect'}, 'appError');
 					return;
-		    	}	
+		    	}
 	  		}
 	  	});
 	}, 

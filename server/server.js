@@ -59,7 +59,6 @@ function serverHandler(socket, incomingObj, callback) {
 		storageTools.retrieveFile(socket, fileTable, incomingObj, callback);
 	}
 	else if(incomingObj.name === "delete") {
-		console.log(incomingObj)
 		storageTools.deleteFile(socket, fileTable, incomingObj, callback);
 	}
 	else if(incomingObj.name === 'login') {
@@ -73,7 +72,6 @@ function serverHandler(socket, incomingObj, callback) {
 			serverError(socket, "No or invalid password");
 			return;
 		}
-
 		loginTools.loginUser(socket, userTable, incomingObj, callback);
 	}
 	else if(incomingObj.name === 'newUser') {
