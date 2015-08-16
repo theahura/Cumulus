@@ -103,7 +103,6 @@ function handleFileSelect(evt)
     	//Calls the save function for gdrive
     	global_baseAPI.storeDataToDB(f);
     }
-    document.getElementById('list').innerHTML = '<ul>' + output.join('') + '</ul>';
 }
 
 document.getElementById('HiddenUploadButton').addEventListener('change', handleFileSelect, false);

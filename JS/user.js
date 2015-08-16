@@ -36,6 +36,15 @@ function login(data) {
 	$(".prelogin-content").fadeOut( function() {	
 		$(".postlogin-content").fadeIn();
 	});
+
+	for(index in data.userFiles) {
+
+		var filename = data.userFiles[index].pathAndFileName.S;
+		var chunks = Object.keys(data.userFiles[index].APIlist.M).length;
+		var size = data.userFiles[index].size.N
+
+		addFile({name: filename, size: size, chunks: chunks});
+	}
 }
 
 function logout() {

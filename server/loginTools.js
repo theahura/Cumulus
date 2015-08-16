@@ -104,8 +104,6 @@ module.exports = {
 	regNewUser: function(socket, table, incomingObj, callback) {
 		checkUser(socket, table, incomingObj.username, function(err, isAppError) {
 
-			console.log(err)
-
 			if(err) { 
 				callback(null, err, isAppError);
 				return;

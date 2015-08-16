@@ -12,3 +12,6 @@ var socket = io('http://54.86.173.127:5000');
 //APIs
 var global_baseAPI = null;
 var global_googleAPI = null;
+
+//Number of files
+var globalFileCount = 0;

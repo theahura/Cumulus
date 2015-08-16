@@ -38,6 +38,27 @@ module.exports = {
 		});
 	},
 
+	getUserFiles: function(table, userKey, callback) {
+		table.query({
+			ExpressionAttributeValues: {
+				":hashval": userKey,
+			},
+			KeyConditionExpression: "userKey = :hashval"
+		}, function(err, data)  {
+
+			if(err) {
+				callback(null, err);
+			}
+			else if(data.Items && data.Items.length > 0) {		
+				callback(data.Items);
+			}
+			else {
+				callback(null);
+			}
+		});
+
+	},
+
 	/**
 		Actually stores the relevant file retrieval data to dynamo
 
@@ -48,22 +69,22 @@ module.exports = {
 			@param: userKey; string; the indentifier for the user
 	*/
 	storeDataToDb: function(socket, table, incomingObj) {
+		console.log(incomingObj)
 		dataObj = {};
 		dataObj['userKey'] = {'S' : incomingObj['userKey']};
 		dataObj['pathAndFileName'] = {'S' : incomingObj['pathAndFileName']};
+		dataObj['size'] = {'N' : incomingObj['size'] + ""};
 		dataObj['APIlist'] = {'M':{}}
 
 		for(key in incomingObj) {
-			if(key === 'name' || key === 'userKey' || key === 'pathAndFileName')
+			if(key === 'name' || key === 'userKey' || key === 'pathAndFileName' || key === 'size')
 				continue;
 
 			dataObj['APIlist']['M'][key] = {'S':incomingObj[key]};
 		}
 
 		var itemParams = {Item: dataObj};
-		
-		console.log(itemParams);
-		
+				
 		table.putItem(itemParams, function(err, data) {
 			if(err) {
 				console.log(err);
@@ -97,9 +118,6 @@ module.exports = {
 	},
 
 	deleteFile: function(socket, table, incomingObj, callback) {
-		console.log(incomingObj['pathAndFileName'])
-		console.log(incomingObj['userKey'])
-		console.log(incomingObj)
 
 		table.deleteItem({Key: {'pathAndFileName':{'S':incomingObj['pathAndFileName']}, 'userKey':{'S':incomingObj['userKey']}}}, function(err)  {
 			if(err) {

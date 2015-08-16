@@ -62,7 +62,19 @@ function serverHandler(socket, incomingObj, callback) {
 		storageTools.deleteFile(socket, fileTable, incomingObj, callback);
 	}
 	else if(incomingObj.name === 'login') {
-		loginTools.loginUser(socket, userTable, incomingObj, callback);
+		loginTools.loginUser(socket, userTable, incomingObj, function(data, err, key) {
+
+			if(err) {
+				callback(data, err, key);
+			}
+			
+			storageTools.getUserFiles(fileTable, data.userKey, function(userFiles) {
+
+				data['userFiles'] = userFiles;
+
+				callback(data, err, key);
+			});
+		});
 	}
 	else if(incomingObj.name === 'newUser') {
 		loginTools.regNewUser(socket, userTable, incomingObj, callback);

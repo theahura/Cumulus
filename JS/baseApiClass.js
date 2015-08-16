@@ -73,13 +73,13 @@ function baseAPI(socket) {
 			return;
 		}
 
-		console.log(file)
-
 		postObj = {
 			"name": 'checkFile',
 			"userKey": userKey,
-			"pathAndFileName": file.name
+			"pathAndFileName": file.name, 
 		};
+
+		console.log(file)
 
 		//Check if file already exists
 		socket.emit("clientToServer", postObj, function(inDB, err) {
@@ -96,10 +96,10 @@ function baseAPI(socket) {
 
 			//if the file does not already exist...
 			postObj['name'] = 'store';
+			postObj["size"] =  file.size;
 
 			//check for api size, determine which api to store to based on file, etc. etc. 
 			var APIandFileChunk = chunkFile(file, availableAPIs);
-			console.log(APIandFileChunk);
 
 			deferredArray = [];
 
@@ -116,7 +116,7 @@ function baseAPI(socket) {
 			}
 
 			//store information about file to dynamo through a server
-			$.when.apply($, deferredArray).then(function() { 
+			$.when.apply($, deferredArray).then(function() {
 				socket.emit("clientToServer", postObj);
 			});
 		});
