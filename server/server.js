@@ -62,36 +62,9 @@ function serverHandler(socket, incomingObj, callback) {
 		storageTools.deleteFile(socket, fileTable, incomingObj, callback);
 	}
 	else if(incomingObj.name === 'login') {
-
-		if(!isSanitized(incomingObj.username)) {
-			serverError(socket, "No or invalid username");
-			return;
-		}
-
-		if(!isSanitized(incomingObj.password)) {
-			serverError(socket, "No or invalid password");
-			return;
-		}
 		loginTools.loginUser(socket, userTable, incomingObj, callback);
 	}
 	else if(incomingObj.name === 'newUser') {
-
-		if(!isSanitized(incomingObj.username)) {
-			serverError(socket, "No or invalid username");
-			return;
-		}
-
-		if(!isSanitized(incomingObj.password)) {
-			serverError(socket, "No or invalid password");
-			return;
-		}
-
-		var testEmail = incomingObj.email.replace('@', '').replace('.', '');
-		if(!isSanitized(testEmail)) {
-			serverError(socket, "No or invalid email");
-			return;
-		}
-
 		loginTools.regNewUser(socket, userTable, incomingObj, callback);
 	}
 	else {
@@ -103,6 +76,11 @@ function serverHandler(socket, incomingObj, callback) {
 //Main
 io.sockets.on('connection', function(socket) {
 	console.log("CONNECTED")
+
+	socket.on('disconnect', function() {
+     	console.log('Got disconnect!');
+   	});
+   	
 	socket.on('clientToServer', function(data, callback) {
 		if(!(data && data.name))
 			serverError(socket, 'Data did not have a name');

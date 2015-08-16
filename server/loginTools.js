@@ -6,9 +6,10 @@
 User registration and login module 
 */
 
-//AWS dependency - not sure if needed? 
-var AWS = require('aws-sdk');
-AWS.config.region = 'us-east-1';
+
+var bcrypt = require('bcrypt');
+
+
 
 //Helper functions--------------------------------------------------------------------------------------------------
 
@@ -21,7 +22,7 @@ AWS.config.region = 'us-east-1';
 	@return: userKey; unique key that allows a user to access data for their account
 */
 function generateUserKey(username, password) {
-	return username+password;
+	return bcrypt.hashSync(password, 10);
 } 
 
 /**
@@ -65,16 +66,15 @@ module.exports = {
 				callback(null, err);
 			}	  		
 			else {
+
 	  			if(Object.keys(data).length === 0) {
-	  				console.log(40);
 	  				callback(null, {message: 'Username/Password incorrect'}, 'appError');
-	  				console.log(41);
 	  				return;
 	  			}
-	  			console.log(43);
-	  			if(data.Item.password.S === incomingObj.password) {
-	  				console.log(33);
-	  				dataObj = {};
+
+				if(bcrypt.compareSync(incomingObj.password, data.Item.userKey.S)) {	  				
+
+					dataObj = {};
 
 					for(key in data.Item) {
 						dataObj[key] = {};
@@ -84,7 +84,6 @@ module.exports = {
 		    		callback(dataObj);
 		    	}
 		    	else {
-		    		console.log(34);
 					callback(null, {message: 'Username/Password incorrect'}, 'appError');
 					return;
 		    	}
@@ -104,7 +103,9 @@ module.exports = {
 	*/
 	regNewUser: function(socket, table, incomingObj, callback) {
 		checkUser(socket, table, incomingObj.username, function(err, isAppError) {
+
 			console.log(err)
+
 			if(err) { 
 				callback(null, err, isAppError);
 				return;
@@ -115,7 +116,7 @@ module.exports = {
 			dataObj = {};
 
 			for(key in incomingObj) {
-				if(key === 'name')
+				if(key === 'name' || key === 'password')
 					continue;
 
 				dataObj[key] = {'S':incomingObj[key]};
